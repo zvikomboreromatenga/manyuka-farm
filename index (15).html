@@ -1,0 +1,2016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manyuka Farm</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Nunito:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#3B6D11;--gl:#EAF3DE;--a:#BA7517;--al:#FAEEDA;
+  --t:#0F6E56;--tl:#E1F5EE;--c:#993C1D;--cl:#FAECE7;
+  --p:#533AB7;--pl:#EEEDFE;--gy:#5F5E5A;--gyl:#F1EFE8;
+  --ec:#0A7A3E;--ecl:#D4F5E5;
+  --bg:#faf9f5;--card:#fff;--bd:#D3D1C7;--tx:#2C2C2A;--mt:#888780;
+  --fh:'Lora',serif;--fb:'Nunito',sans-serif;
+}
+body{font-family:var(--fb);background:var(--bg);color:var(--tx);font-size:13px;min-height:100vh}
+.hdr{background:var(--g);color:#fff;padding:11px 14px;display:flex;align-items:center;justify-content:space-between}
+.hdr h1{font-family:var(--fh);font-size:17px;font-weight:600}
+.hdr .sub{font-size:10px;opacity:.8;margin-top:1px}
+.sbadge{background:rgba(255,255,255,.18);border-radius:20px;padding:3px 9px;font-size:11px;display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap}
+.dot{width:7px;height:7px;border-radius:50%;background:#C0DD97;flex-shrink:0}
+.dot.spin{background:#FAC775;animation:pulse .9s infinite}
+.dot.off{background:#F09595}.dot.err{background:#E24B4A}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.tabs{display:flex;background:#fff;border-bottom:1px solid var(--bd);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tb{flex:none;padding:9px 10px;font-family:var(--fb);font-size:11px;font-weight:700;border:none;background:none;cursor:pointer;color:var(--mt);border-bottom:2px solid transparent;white-space:nowrap}
+.tb.active{color:var(--g);border-bottom-color:var(--g)}
+.view{display:none;padding:12px;overflow-y:auto;height:calc(100vh - 86px)}
+.view.active{display:block}
+.stitle{font-family:var(--fh);font-size:14px;font-weight:600;margin-bottom:9px}
+.stitle.sm{font-size:13px;margin-bottom:7px}
+.ptabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.ptab{padding:5px 12px;border-radius:20px;border:1px solid var(--bd);font-family:var(--fb);font-size:11px;font-weight:700;cursor:pointer;background:#fff;color:var(--mt)}
+.ptab.active{background:var(--g);color:#fff;border-color:var(--g)}
+.sg2{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}
+.sg3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
+.sg4{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:10px}
+.sc{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:9px;text-align:center}
+.sn{font-size:17px;font-weight:700;font-family:var(--fh)}
+.sl{font-size:9px;color:var(--mt);font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-top:1px}
+.sc.g .sn{color:var(--g)}.sc.a .sn{color:var(--a)}.sc.c .sn{color:var(--c)}.sc.t .sn{color:var(--t)}.sc.p .sn{color:var(--p)}.sc.ec .sn{color:var(--ec)}
+.tbar{background:var(--g);color:#fff;border-radius:9px;padding:11px;margin-bottom:10px}
+.tbar h3{font-family:var(--fh);font-size:12px;opacity:.9;margin-bottom:6px}
+.tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.ti{text-align:center}.tn2{font-size:14px;font-weight:700}.tl2{font-size:9px;opacity:.7;text-transform:uppercase;letter-spacing:.3px}
+.rl{display:flex;flex-direction:column;gap:7px}
+.ri{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:9px 11px;display:flex;align-items:flex-start;justify-content:space-between;gap:7px}
+.ri.col{flex-direction:column;align-items:stretch}
+.rtt{font-weight:700;font-size:12px}
+.rm{font-size:10px;color:var(--mt);margin-top:2px}
+.ra{font-size:14px;font-weight:700;text-align:right;white-space:nowrap}
+.ra.inc{color:var(--g)}.ra.exp{color:var(--c)}.ra.amb{color:var(--a)}
+.tag{display:inline-block;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700}
+.te{background:var(--al);color:var(--a)}.tc2{background:#FBEAF0;color:#993556}
+.tg{background:var(--tl);color:var(--t)}.to{background:#E6F1FB;color:#185FA5}
+.tx2{background:var(--cl);color:var(--c)}.tn3{background:var(--gyl);color:var(--gy)}
+.tp{background:var(--pl);color:var(--p)}.tba{background:#EAF3DE;color:#3B6D11}
+.tec{background:var(--ecl);color:var(--ec)}.tca{background:#FFF3E0;color:#E65100}
+.fg{margin-bottom:10px}
+.fg label{display:block;font-size:10px;font-weight:700;color:var(--gy);margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px}
+.fg input,.fg select,.fg textarea{width:100%;padding:7px 9px;border:1px solid var(--bd);border-radius:6px;font-family:var(--fb);font-size:13px;background:#fff;color:var(--tx)}
+.fg textarea{resize:vertical;min-height:60px}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+.btn{padding:8px 14px;border-radius:6px;border:none;font-family:var(--fb);font-size:12px;font-weight:700;cursor:pointer}
+.bp{background:var(--g);color:#fff}.bt{background:var(--t);color:#fff}.bs{background:var(--gyl);color:var(--tx)}
+.bsm{padding:4px 9px;font-size:11px;border-radius:5px}.bd2{background:var(--cl);color:var(--c)}.bw{width:100%;display:block;margin-top:2px}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.48);display:flex;align-items:center;justify-content:center;z-index:100;padding:12px;overflow-y:auto}
+.md{background:#fff;border-radius:11px;padding:15px;width:100%;max-width:400px;max-height:95vh;overflow-y:auto}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
+.mt2{font-family:var(--fh);font-size:14px;font-weight:600}
+.xb{background:none;border:none;font-size:19px;cursor:pointer;color:var(--mt);line-height:1}
+.icard{background:linear-gradient(135deg,#FAEEDA,#fff9f0);border:1px solid #FAC775;border-radius:9px;padding:11px;margin-bottom:8px}
+.progress-bar{background:#F1EFE8;border-radius:10px;height:7px;margin-top:6px;overflow:hidden}
+.progress-fill{background:var(--a);height:100%;border-radius:10px}
+.estrip{background:linear-gradient(135deg,#FAEEDA,#fff5e0);border:1px solid #FAC775;border-radius:9px;padding:12px;margin-bottom:10px}
+.eweek{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:8px}
+.eday{text-align:center;background:#fff;border:1px solid #FAC775;border-radius:4px;padding:3px 1px}
+.eday .dn{font-size:8px;color:var(--mt);font-weight:700}.eday .dc{font-size:12px;font-weight:700;color:var(--a)}
+.sdiv{border:none;border-top:1px solid var(--bd);margin:12px 0}
+.empty{text-align:center;padding:24px 14px;color:var(--mt)}
+.empty .ei{font-size:28px;margin-bottom:5px}.empty p{font-size:12px}
+.offbar{background:var(--al);border:1px solid #FAC775;border-radius:7px;padding:8px 11px;margin:6px 12px 0;font-size:11px;color:var(--a);display:none}
+.lo{position:fixed;inset:0;background:rgba(250,249,245,.94);display:flex;align-items:center;justify-content:center;z-index:200;flex-direction:column;gap:9px}
+.sp2{width:28px;height:28px;border:3px solid var(--bd);border-top-color:var(--g);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lf{font-family:var(--fh);font-size:14px;color:var(--g);font-weight:600}.ls{font-size:11px;color:var(--mt)}
+.os{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700}
+.sp3{background:#E6F1FB;color:#185FA5}.sr2{background:var(--al);color:var(--a)}.sc2{background:var(--gl);color:var(--g)}.sk{background:var(--cl);color:var(--c)}.sinc{background:var(--pl);color:var(--p)}
+.section-card{background:var(--card);border:1px solid var(--bd);border-radius:9px;padding:11px;margin-bottom:10px}
+.big-num{font-size:26px;font-weight:700;font-family:var(--fh)}
+.cash-card{border-radius:9px;padding:12px;color:#fff;margin-bottom:8px}
+.cash-card.hand{background:linear-gradient(135deg,#5B6E3A,#3B6D11)}
+.cash-card.eco{background:linear-gradient(135deg,#0F6E56,#0A4A38)}
+.cash-card.dep{background:linear-gradient(135deg,#533AB7,#3A2785)}
+.cash-card h4{font-family:var(--fh);font-size:12px;opacity:.85;margin-bottom:4px}
+.cash-card .amt{font-size:22px;font-weight:700;font-family:var(--fh)}
+.pay-toggle{display:flex;gap:6px;margin-bottom:2px}
+.pay-btn{flex:1;padding:8px;border-radius:6px;border:2px solid var(--bd);font-family:var(--fb);font-size:12px;font-weight:700;cursor:pointer;background:#fff;color:var(--mt);text-align:center}
+.pay-btn.active.cash{border-color:var(--a);background:var(--al);color:var(--a)}
+.pay-btn.active.eco{border-color:var(--ec);background:var(--ecl);color:var(--ec)}
+.herd-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
+.hs-item{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:10px;text-align:center}
+.hs-num{font-size:22px;font-weight:700;font-family:var(--fh)}
+.hs-lbl{font-size:9px;color:var(--mt);font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-top:1px}
+.mort-card{background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:10px 12px}
+.info-box{border-radius:6px;padding:8px 10px;font-size:11px;margin-bottom:10px}
+
+.pin-screen{position:fixed;inset:0;background:#faf9f5;display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:16px;padding:24px}
+.pin-card{background:#fff;border:1px solid var(--bd);border-radius:14px;padding:28px 24px;width:100%;max-width:320px;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,.08)}
+.pin-logo{font-family:var(--fh);font-size:22px;font-weight:600;color:var(--g);margin-bottom:4px}
+.pin-sub{font-size:12px;color:var(--mt);margin-bottom:20px}
+.pin-dots{display:flex;justify-content:center;gap:10px;margin-bottom:20px}
+.pin-dot{width:14px;height:14px;border-radius:50%;background:var(--bd);transition:background .15s}
+.pin-dot.filled{background:var(--g)}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pin-key{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:14px;font-family:var(--fh);font-size:20px;font-weight:600;cursor:pointer;color:var(--tx);transition:background .1s}
+.pin-key:active{background:var(--gl)}
+.pin-key.del-key{font-size:14px;color:var(--mt)}
+.pin-err{color:var(--c);font-size:12px;font-weight:700;min-height:18px}
+.pin-hint{font-size:11px;color:var(--mt);margin-top:8px}
+</style>
+</head>
+<body>
+<!-- PIN LOCK SCREEN -->
+<div id="pinScreen" class="pin-screen">
+  <div class="pin-card">
+    <div class="pin-logo">🌿 Manyuka Farm</div>
+    <div class="pin-sub">Enter your PIN to continue</div>
+    <div class="pin-dots">
+      <div class="pin-dot" id="pd0"></div>
+      <div class="pin-dot" id="pd1"></div>
+      <div class="pin-dot" id="pd2"></div>
+      <div class="pin-dot" id="pd3"></div>
+    </div>
+    <div class="pin-err" id="pinErr"></div>
+    <div class="pin-pad">
+      <button class="pin-key" onclick="pinKey('1')">1</button>
+      <button class="pin-key" onclick="pinKey('2')">2</button>
+      <button class="pin-key" onclick="pinKey('3')">3</button>
+      <button class="pin-key" onclick="pinKey('4')">4</button>
+      <button class="pin-key" onclick="pinKey('5')">5</button>
+      <button class="pin-key" onclick="pinKey('6')">6</button>
+      <button class="pin-key" onclick="pinKey('7')">7</button>
+      <button class="pin-key" onclick="pinKey('8')">8</button>
+      <button class="pin-key" onclick="pinKey('9')">9</button>
+      <button class="pin-key" onclick="pinKey('C')" style="font-size:13px;color:var(--mt)">Clear</button>
+      <button class="pin-key" onclick="pinKey('0')">0</button>
+      <button class="pin-key del-key" onclick="pinKey('⌫')">⌫</button>
+    </div>
+    <div class="pin-hint">PIN forgotten? Contact the farm admin.</div>
+  </div>
+</div>
+
+<div id="lo" class="lo"><div class="sp2"></div><div class="lf">🌿 Manyuka Farm</div><div class="ls">Connecting...</div></div>
+<div class="hdr">
+  <div><h1>🌿 Manyuka Farm</h1><div class="sub">All devices · Live sync</div></div>
+  <div class="sbadge" onclick="doRefresh()"><div class="dot spin" id="dot"></div><span id="slbl">Connecting</span></div>
+</div>
+<div class="offbar" id="offbar">⚠️ Offline — <span id="qc">0</span> queued</div>
+<div class="tabs">
+  <button class="tb active" onclick="sv('dash')" data-v="dash">📊 Dash</button>
+  <button class="tb" onclick="sv('cash')" data-v="cash">💵 Cash</button>
+  <button class="tb" onclick="sv('ba')" data-v="ba">🐔 BA</button>
+  <button class="tb" onclick="sv('layer')" data-v="layer">🥚 Layer</button>
+  <button class="tb" onclick="sv('incubator')" data-v="incubator">🐣 Incubator</button>
+  <button class="tb" onclick="sv('goats')" data-v="goats">🐐 Goats</button>
+  <button class="tb" onclick="sv('orders')" data-v="orders">📋 Orders</button>
+  <button class="tb" onclick="sv('sales')" data-v="sales">💰 Sales</button>
+  <button class="tb" onclick="sv('expenses')" data-v="expenses">💸 Expenses</button>
+  <button class="tb" onclick="sv('notes')" data-v="notes">📝 Notes</button>
+  <button class="tb" onclick="sv('reports')" data-v="reports">📈 Reports</button>
+  <button class="tb" onclick="sv('dellog')" data-v="dellog">🗑️ Del Log</button>
+</div>
+
+<!-- DASHBOARD -->
+<div class="view active" id="v-dash">
+  <div class="tbar"><h3>Today at Manyuka Farm</h3><div class="tgrid">
+    <div class="ti"><div class="tn2" id="d-ba">—</div><div class="tl2">BA Eggs</div></div>
+    <div class="ti"><div class="tn2" id="d-le">—</div><div class="tl2">Layer</div></div>
+    <div class="ti"><div class="tn2" id="d-sales">—</div><div class="tl2">Sales</div></div>
+    <div class="ti"><div class="tn2" id="d-exp">—</div><div class="tl2">Expenses</div></div>
+  </div></div>
+  <div class="sg3" style="margin-bottom:10px">
+    <div style="background:linear-gradient(135deg,#5B6E3A,#3B6D11);border-radius:8px;padding:9px;color:#fff">
+      <div style="font-size:9px;opacity:.8;text-transform:uppercase;letter-spacing:.3px">Cash in Hand</div>
+      <div style="font-size:16px;font-weight:700;font-family:var(--fh)" id="d-cash">$0</div>
+    </div>
+    <div style="background:linear-gradient(135deg,#0F6E56,#0A4A38);border-radius:8px;padding:9px;color:#fff">
+      <div style="font-size:9px;opacity:.8;text-transform:uppercase;letter-spacing:.3px">EcoCash</div>
+      <div style="font-size:16px;font-weight:700;font-family:var(--fh)" id="d-eco">$0</div>
+    </div>
+    <div style="background:linear-gradient(135deg,#533AB7,#3A2785);border-radius:8px;padding:9px;color:#fff">
+      <div style="font-size:9px;opacity:.8;text-transform:uppercase;letter-spacing:.3px">Deposited</div>
+      <div style="font-size:16px;font-weight:700;font-family:var(--fh)" id="d-dep">$0</div>
+    </div>
+  </div>
+  <div class="sg4">
+    <div class="sc g"><div class="sn" id="hd-goats">—</div><div class="sl">Herd</div></div>
+    <div class="sc g"><div class="sn" id="hd-ba">—</div><div class="sl">Australorps</div></div>
+    <div class="sc a"><div class="sn" id="hd-inc">—</div><div class="sl">Incubating</div></div>
+    <div class="sc p"><div class="sn" id="hd-orders">—</div><div class="sl">Orders</div></div>
+  </div>
+  <div class="stitle sm">Recent Activity</div>
+  <div id="ra" class="rl"></div>
+</div>
+
+<!-- CASH -->
+<div class="view" id="v-cash">
+  <div class="stitle">💵 Cash Management</div>
+  <div class="sg3" style="margin-bottom:12px">
+    <div class="cash-card hand"><h4>Cash in Hand</h4><div class="amt" id="c-hand">$0</div></div>
+    <div class="cash-card eco"><h4>EcoCash</h4><div class="amt" id="c-eco">$0</div></div>
+    <div class="cash-card dep"><h4>Deposited</h4><div class="amt" id="c-dep">$0</div></div>
+  </div>
+  <div style="display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap">
+    <button class="btn bp bsm" onclick="om('mCashIn')">+ Cash In Hand</button>
+    <button class="btn bt bsm" onclick="om('mEcoCashIn')">+ EcoCash In</button>
+    <button class="btn bsm" style="background:var(--pl);color:var(--p);font-family:var(--fb);font-weight:700;border:none;cursor:pointer" onclick="om('mDeposit')">🏦 Deposit</button>
+  </div>
+  <div class="stitle sm">Transaction Ledger</div>
+  <div id="lCash" class="rl"></div>
+</div>
+
+<!-- BLACK AUSTRALORP -->
+<div class="view" id="v-ba">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <div class="stitle" style="margin:0">🐔 Black Australorp</div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap">
+      <button class="btn bp bsm" onclick="om('mBACount')">Update Count</button>
+      <button class="btn bp bsm" onclick="om('mEgg')">Log Eggs</button>
+      <button class="btn bsm" style="background:var(--cl);color:var(--c);font-family:var(--fb);font-weight:700;border:none;cursor:pointer" onclick="om('mBAMort')">🪦 Mortality</button>
+    </div>
+  </div>
+  <div class="section-card" style="margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:16px">
+      <div><div class="big-num" style="color:var(--g)" id="ba-current">—</div><div style="font-size:11px;color:var(--mt);font-weight:600">Total flock</div></div>
+      <div style="flex:1">
+        <div style="display:flex;gap:10px;margin-bottom:6px">
+          <div><div style="font-size:16px;font-weight:700;color:var(--g)" id="ba-hens">—</div><div style="font-size:9px;color:var(--mt);font-weight:700;text-transform:uppercase">Hens ♀</div></div>
+          <div><div style="font-size:16px;font-weight:700;color:var(--a)" id="ba-cocks">—</div><div style="font-size:9px;color:var(--mt);font-weight:700;text-transform:uppercase">Cocks ♂</div></div>
+        </div>
+        <div style="font-size:11px;color:var(--mt)">Eggs today · <span style="font-weight:700;color:var(--a)" id="ba-today-eggs">—</span></div>
+        <div style="font-size:11px;color:var(--mt)">Eggs this week · <span style="font-weight:700;color:var(--a)" id="ba-week-eggs">—</span></div>
+      </div>
+    </div>
+    <div id="ba-mort-bar" style="display:none;margin-top:8px;padding-top:8px;border-top:1px solid var(--bd);font-size:11px;color:var(--c)"></div>
+  </div>
+  <div class="estrip"><div style="font-size:11px;color:var(--a);font-weight:700;margin-bottom:4px">BA EGGS — 7 DAY VIEW</div><div class="eweek" id="ba-eweek"></div></div>
+  <div class="stitle sm">Egg Log</div><div id="lBAEggs" class="rl" style="margin-bottom:12px"></div>
+  <hr class="sdiv"><div class="stitle sm">🪦 Mortality Log</div><div id="lBAMort" class="rl"></div>
+</div>
+
+<!-- LAYER EGGS -->
+<div class="view" id="v-layer">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <div class="stitle" style="margin:0">🥚 Layer Eggs</div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap">
+      <button class="btn bt bsm" onclick="om('mLayerCount')">Update Count</button>
+      <button class="btn bt bsm" onclick="om('mLayerEgg')">Log Collection</button>
+      <button class="btn bp bsm" onclick="om('mLayerSale')">Log Sale</button>
+      <button class="btn bsm" style="background:var(--cl);color:var(--c);font-family:var(--fb);font-weight:700;border:none;cursor:pointer" onclick="om('mLayerMort')">🪦 Mortality</button>
+    </div>
+  </div>
+  <div class="section-card" style="display:flex;align-items:center;gap:16px;margin-bottom:10px">
+    <div><div class="big-num" style="color:var(--t)" id="layer-current">—</div><div style="font-size:11px;color:var(--mt);font-weight:600">Layer hens</div></div>
+    <div style="flex:1">
+      <div style="font-size:11px;color:var(--mt)">Eggs today · <span style="font-weight:700;color:var(--a)" id="le-today-inline">—</span></div>
+      <div style="font-size:11px;color:var(--mt)">Eggs this week · <span style="font-weight:700;color:var(--a)" id="le-week-inline">—</span></div>
+      <div id="layer-mort-bar" style="display:none;font-size:11px;color:var(--c);margin-top:4px"></div>
+    </div>
+  </div>
+  <div class="sg3"><div class="sc a"><div class="sn" id="le-today">0</div><div class="sl">Today</div></div><div class="sc a"><div class="sn" id="le-week">0</div><div class="sl">This Week</div></div><div class="sc g"><div class="sn" id="le-sales">$0</div><div class="sl">Sales Today</div></div></div>
+  <div class="estrip" style="background:linear-gradient(135deg,#E1F5EE,#f0fff8);border-color:#9FE1CB"><div style="font-size:11px;color:var(--t);font-weight:700;margin-bottom:4px">LAYER EGGS — 7 DAY VIEW</div><div class="eweek" id="le-eweek"></div></div>
+  <hr class="sdiv">
+  <div class="stitle sm">Collection Log</div><div id="lLayerEggs" class="rl" style="margin-bottom:12px"></div>
+  <div class="stitle sm">Layer Sales</div><div id="lLayerSales" class="rl" style="margin-bottom:12px"></div>
+  <hr class="sdiv"><div class="stitle sm">🪦 Mortality Log</div><div id="lLayerMort" class="rl"></div>
+</div>
+
+<!-- INCUBATOR -->
+<div class="view" id="v-incubator">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <div class="stitle" style="margin:0">🐣 Incubator</div>
+    <button class="btn bp bsm" onclick="om('mIncubator')">+ New Batch</button>
+  </div>
+  <div id="incubatorActive"></div>
+  <hr class="sdiv"><div class="stitle sm">Completed Batches</div><div id="incubatorDone" class="rl"></div>
+</div>
+
+<!-- GOATS -->
+<div class="view" id="v-goats">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <div class="stitle" style="margin:0">🐐 Goats</div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap">
+      <button class="btn bt bsm" onclick="om('mGoatCount')">Set Adults</button>
+      <button class="btn bp bsm" onclick="om('mKids')">Log Kids</button>
+      <button class="btn bsm" style="background:var(--cl);color:var(--c);font-family:var(--fb);font-weight:700;border:none;cursor:pointer" onclick="om('mMortality')">🪦 Mortality</button>
+    </div>
+  </div>
+  <div class="herd-summary">
+    <div class="hs-item"><div class="hs-num" style="color:var(--t)" id="g-total">—</div><div class="hs-lbl">Total Herd</div></div>
+    <div class="hs-item"><div class="hs-num" style="color:var(--g)" id="g-adults">—</div><div class="hs-lbl">Adults</div></div>
+    <div class="hs-item"><div class="hs-num" style="color:var(--a)" id="g-kids-count">—</div><div class="hs-lbl">Kids</div></div>
+  </div>
+  <div class="sg2">
+    <div class="sc t"><div class="sn" id="g-kids-month">—</div><div class="sl">Kids This Month</div></div>
+    <div class="sc t"><div class="sn" id="g-kids-year">—</div><div class="sl">Kids This Year</div></div>
+  </div>
+  <div class="stitle sm">Kid Batches</div><div id="lKids" class="rl" style="margin-bottom:12px"></div>
+  <hr class="sdiv">
+  <div class="stitle sm">🪦 Mortality Log</div><div id="lMortality" class="rl" style="margin-bottom:12px"></div>
+  <hr class="sdiv">
+  <div class="stitle sm">Adult Count History</div><div id="lGoatCount" class="rl"></div>
+</div>
+
+<!-- ORDERS -->
+<div class="view" id="v-orders">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <div class="stitle" style="margin:0">📋 Customer Orders</div>
+    <button class="btn bp bsm" onclick="om('mOrder')">+ New Order</button>
+  </div>
+  <div id="lOrders" class="rl"></div>
+</div>
+
+<!-- SALES -->
+<div class="view" id="v-sales">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <div class="stitle" style="margin:0">💰 Sales</div>
+    <button class="btn bp bsm" onclick="om('mSale')">+ Add Sale</button>
+  </div>
+  <div id="lSales" class="rl"></div>
+</div>
+
+<!-- EXPENSES -->
+<div class="view" id="v-expenses">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <div class="stitle" style="margin:0">💸 Expenses</div>
+    <button class="btn bp bsm" onclick="om('mExp')">+ Add Expense</button>
+  </div>
+  <div id="lExp" class="rl"></div>
+</div>
+
+<!-- NOTES -->
+<div class="view" id="v-notes">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <div class="stitle" style="margin:0">📝 Daily Notes</div>
+    <button class="btn bp bsm" onclick="om('mNote')">+ Add Note</button>
+  </div>
+  <div id="lNotes" class="rl"></div>
+</div>
+
+<!-- REPORTS -->
+<div class="view" id="v-reports">
+  <div class="stitle">📈 Farm Reports</div>
+  <div class="ptabs">
+    <button class="ptab active" onclick="setPeriod('week')">This Week</button>
+    <button class="ptab" onclick="setPeriod('month')">This Month</button>
+    <button class="ptab" onclick="setPeriod('year')">This Year</button>
+  </div>
+  <div id="reportContent"></div>
+</div>
+
+<!-- ===== MODALS ===== -->
+<div class="mo" id="mCashIn" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">💵 Add Cash in Hand</div><button class="xb" onclick="cm('mCashIn')">×</button></div>
+  <div class="fg"><label>Amount ($)</label><input type="number" id="ci-amt" step="0.01" placeholder="0.00" min="0"></div>
+  <div class="fg"><label>Reference / Source</label><input type="text" id="ci-ref" placeholder="e.g. sale proceeds, loan, other"></div>
+  <div class="fg"><label>Notes</label><input type="text" id="ci-notes" placeholder="Optional"></div>
+  <button class="btn bp bw" onclick="saveCashIn()">Add to Cash in Hand</button>
+</div></div>
+
+<div class="mo" id="mEcoCashIn" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">📲 Add EcoCash</div><button class="xb" onclick="cm('mEcoCashIn')">×</button></div>
+  <div class="fg"><label>Amount ($)</label><input type="number" id="ei2-amt" step="0.01" placeholder="0.00" min="0"></div>
+  <div class="fg"><label>Reference / Source</label><input type="text" id="ei2-ref" placeholder="e.g. mobile transfer, payment received"></div>
+  <div class="fg"><label>Notes</label><input type="text" id="ei2-notes" placeholder="Optional"></div>
+  <button class="btn bt bw" onclick="saveEcoCashIn()">Add to EcoCash</button>
+</div></div>
+
+<div class="mo" id="mDeposit" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">🏦 Bank Deposit</div><button class="xb" onclick="cm('mDeposit')">×</button></div>
+  <div class="fg"><label>Amount ($)</label><input type="number" id="dep-amt" step="0.01" placeholder="0.00" min="0"></div>
+  <div class="fg"><label>Withdraw from</label>
+    <select id="dep-src">
+      <option value="cash">Cash in Hand</option>
+      <option value="ecocash">EcoCash</option>
+    </select>
+  </div>
+  <div class="fg"><label>Bank / Reference</label><input type="text" id="dep-ref" placeholder="Bank name or reference no."></div>
+  <div class="fg"><label>Notes</label><input type="text" id="dep-notes" placeholder="Optional"></div>
+  <button class="btn bw" style="background:var(--p);color:#fff;font-family:var(--fb);font-size:12px;font-weight:700;border:none;cursor:pointer;border-radius:6px;padding:9px" onclick="saveDeposit()">Record Deposit</button>
+</div></div>
+
+<div class="mo" id="mEgg" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">Log BA Eggs</div><button class="xb" onclick="cm('mEgg')">×</button></div>
+  <div class="fg"><label>Eggs Collected (BA)</label><input type="number" id="ei" placeholder="Count" min="1"></div>
+  <div class="fg"><label>Notes</label><input type="text" id="en" placeholder="Optional"></div>
+  <button class="btn bp bw" onclick="logBAEgg()">Log Eggs</button>
+</div></div>
+
+<div class="mo" id="mBACount" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">Update Australorp Flock</div><button class="xb" onclick="cm('mBACount')">×</button></div>
+  <div class="fg"><label>Total Flock Size</label><input type="number" id="bac" placeholder="Total count" min="0"></div>
+  <div class="fr">
+    <div class="fg"><label>Hens (♀)</label><input type="number" id="bac-hens" placeholder="0" min="0"></div>
+    <div class="fg"><label>Cocks (♂)</label><input type="number" id="bac-cocks" placeholder="0" min="0"></div>
+  </div>
+  <div class="fg"><label>Notes</label><input type="text" id="ban" placeholder="Reason for change..."></div>
+  <div class="info-box" style="background:var(--gl);color:var(--g)">ℹ️ Enter total OR hens + cocks. Mortality will auto-deduct from this baseline.</div>
+  <button class="btn bp bw" onclick="saveBACount()">Save</button>
+</div></div>
+
+<div class="mo" id="mLayerEgg" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">Log Layer Eggs</div><button class="xb" onclick="cm('mLayerEgg')">×</button></div>
+  <div class="fg"><label>Eggs Collected (Layer hens)</label><input type="number" id="lei" placeholder="Count" min="1"></div>
+  <div class="fg"><label>Notes</label><input type="text" id="len2" placeholder="Optional"></div>
+  <button class="btn bt bw" onclick="logLayerEgg()">Log Eggs</button>
+</div></div>
+
+<div class="mo" id="mLayerSale" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">Layer Egg Sale</div><button class="xb" onclick="cm('mLayerSale')">×</button></div>
+  <div class="fr">
+    <div class="fg"><label>Qty (eggs)</label><input type="number" id="lsq" min="1" value="1"></div>
+    <div class="fg"><label>Amount ($)</label><input type="number" id="lsa" step="0.01" placeholder="0.00"></div>
+  </div>
+  <div class="fg"><label>Buyer</label><input type="text" id="lsb" placeholder="Optional"></div>
+  <div class="fg"><label>Payment Method</label>
+    <div class="pay-toggle">
+      <button class="pay-btn active cash" id="ls-cash" onclick="setPay('ls','cash')">💵 Cash</button>
+      <button class="pay-btn eco" id="ls-eco" onclick="setPay('ls','eco')">📲 EcoCash</button>
+    </div>
+  </div>
+  <input type="hidden" id="ls-pay" value="cash">
+  <button class="btn bp bw" onclick="saveLayerSale()">Save Sale</button>
+</div></div>
+
+<div class="mo" id="mLayerCount" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">Update Layer Hen Count</div><button class="xb" onclick="cm('mLayerCount')">×</button></div>
+  <div class="fg"><label>Current number of Layer hens</label><input type="number" id="lc-count" placeholder="Count" min="0"></div>
+  <div class="fg"><label>Notes</label><input type="text" id="lc-notes" placeholder="Reason for change..."></div>
+  <div class="info-box" style="background:var(--tl);color:var(--t)">ℹ️ Mortality will auto-deduct from this baseline.</div>
+  <button class="btn bt bw" onclick="saveLayerCount()">Save</button>
+</div></div>
+
+<div class="mo" id="mBAMort" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">🪦 BA Flock Mortality</div><button class="xb" onclick="cm('mBAMort')">×</button></div>
+  <div class="fg"><label>Number Lost</label><input type="number" id="bam-count" min="1" value="1"></div>
+  <div class="fg"><label>Gender</label>
+    <select id="bam-gender">
+      <option value="hen">Hen (♀)</option>
+      <option value="cock">Cock (♂)</option>
+      <option value="unknown">Unknown</option>
+    </select>
+  </div>
+  <div class="fg"><label>Cause</label>
+    <select id="bam-cause">
+      <option value="disease">Disease / Sickness</option>
+      <option value="predator">Predator</option>
+      <option value="injury">Injury</option>
+      <option value="unknown">Unknown</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+  <div class="fg"><label>Notes</label><textarea id="bam-notes" placeholder="Additional details..."></textarea></div>
+  <button class="btn bw" style="background:var(--c);color:#fff;font-family:var(--fb);font-size:12px;font-weight:700;border:none;cursor:pointer;border-radius:6px;padding:9px" onclick="saveBAMort()">Record Loss</button>
+</div></div>
+
+<div class="mo" id="mLayerMort" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">🪦 Layer Hen Mortality</div><button class="xb" onclick="cm('mLayerMort')">×</button></div>
+  <div class="fg"><label>Number Lost</label><input type="number" id="lm-count" min="1" value="1"></div>
+  <div class="fg"><label>Cause</label>
+    <select id="lm-cause">
+      <option value="disease">Disease / Sickness</option>
+      <option value="predator">Predator</option>
+      <option value="injury">Injury</option>
+      <option value="unknown">Unknown</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+  <div class="fg"><label>Notes</label><textarea id="lm-notes" placeholder="Additional details..."></textarea></div>
+  <button class="btn bw" style="background:var(--c);color:#fff;font-family:var(--fb);font-size:12px;font-weight:700;border:none;cursor:pointer;border-radius:6px;padding:9px" onclick="saveLayerMort()">Record Loss</button>
+</div></div>
+
+<div class="mo" id="mIncubator" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">New Incubator Batch</div><button class="xb" onclick="cm('mIncubator')">×</button></div>
+  <div class="fr">
+    <div class="fg"><label>Eggs Set</label><input type="number" id="inc-count" placeholder="e.g. 24" min="1"></div>
+    <div class="fg"><label>Date Set</label><input type="date" id="inc-date"></div>
+  </div>
+  <div class="fg"><label>Source</label><input type="text" id="inc-source" placeholder="Black Australorp"></div>
+  <div class="fg"><label>Notes</label><input type="text" id="inc-notes" placeholder="Optional"></div>
+  <button class="btn bp bw" onclick="saveIncubator()">Start Batch</button>
+</div></div>
+
+<div class="mo" id="mHatch" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">Record Hatch</div><button class="xb" onclick="cm('mHatch')">×</button></div>
+  <div class="fg"><label>Chicks Hatched</label><input type="number" id="hatch-count" min="0" placeholder="0"></div>
+  <input type="hidden" id="hatch-id">
+  <button class="btn bp bw" onclick="recordHatch()">Save Hatch</button>
+</div></div>
+
+<div class="mo" id="mGoatCount" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">Set Adult Goat Count</div><button class="xb" onclick="cm('mGoatCount')">×</button></div>
+  <div class="fg"><label>Number of adult goats (baseline)</label><input type="number" id="gc" placeholder="Count" min="0"></div>
+  <div class="fg"><label>Notes</label><input type="text" id="gn" placeholder="Reason for change..."></div>
+  <div class="info-box" style="background:var(--gl);color:var(--g)">ℹ️ This sets the adult baseline. Kids 6+ months old are automatically added on top. Mortality is deducted.</div>
+  <button class="btn bt bw" onclick="saveGoatCount()">Save</button>
+</div></div>
+
+<div class="mo" id="mKids" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">Log New Kids</div><button class="xb" onclick="cm('mKids')">×</button></div>
+  <div class="fg"><label>Doe (Mother's Name)</label><input type="text" id="kd" placeholder="Name"></div>
+  <div class="fr3">
+    <div class="fg"><label>Total Kids</label><input type="number" id="kt" min="1" value="1"></div>
+    <div class="fg"><label>Male</label><input type="number" id="km" min="0" value="0"></div>
+    <div class="fg"><label>Female</label><input type="number" id="kf" min="0" value="0"></div>
+  </div>
+  <div class="fg"><label>Notes</label><textarea id="kn" placeholder="Health, weight, special notes..."></textarea></div>
+  <div class="info-box" style="background:var(--gl);color:var(--g)">ℹ️ Kids automatically graduate to adults after 6 months from today's date.</div>
+  <button class="btn bt bw" onclick="saveKids()">Save</button>
+</div></div>
+
+<div class="mo" id="mMortality" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">🪦 Record Mortality</div><button class="xb" onclick="cm('mMortality')">×</button></div>
+  <div class="fg"><label>Animal Type</label>
+    <select id="mort-type" onchange="toggleMortKidField()">
+      <option value="adult">Adult Goat</option>
+      <option value="kid">Kid</option>
+    </select>
+  </div>
+  <div class="fg"><label>Number Lost</label><input type="number" id="mort-count" min="1" value="1"></div>
+  <div id="mort-kid-row" style="display:none">
+    <div class="fg"><label>Kid Batch (which birth date?)</label>
+      <select id="mort-batch"></select>
+    </div>
+  </div>
+  <div class="fg"><label>Cause of Death</label>
+    <select id="mort-cause">
+      <option value="disease">Disease / Sickness</option>
+      <option value="injury">Injury</option>
+      <option value="predator">Predator</option>
+      <option value="birthing">Birthing complications</option>
+      <option value="unknown">Unknown</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+  <div class="fg"><label>Notes</label><textarea id="mort-notes" placeholder="Additional details..."></textarea></div>
+  <button class="btn bw" style="background:var(--c);color:#fff;font-family:var(--fb);font-size:12px;font-weight:700;border:none;cursor:pointer;border-radius:6px;padding:9px" onclick="saveMortality()">Record Loss</button>
+</div></div>
+
+<div class="mo" id="mOrder" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">New Customer Order</div><button class="xb" onclick="cm('mOrder')">×</button></div>
+  <div class="fg"><label>Customer Name</label><input type="text" id="oc" placeholder="Name"></div>
+  <div class="fg"><label>Phone / Contact</label><input type="text" id="ocon" placeholder="Optional"></div>
+  <div class="fr">
+    <div class="fg"><label>Item</label>
+      <select id="oi" onchange="updateOrderHint()">
+        <option value="fertile_eggs">Fertile Eggs (BA)</option>
+        <option value="table_eggs">Table Eggs (Layer)</option>
+        <option value="chicks">Chicks</option>
+        <option value="goats">Goats</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="fg"><label>Qty</label><input type="number" id="oq" min="1" value="1"></div>
+  </div>
+  <div class="fr">
+    <div class="fg"><label>Price ($)</label><input type="number" id="op" step="0.01" placeholder="0.00"></div>
+    <div class="fg"><label>Needed By</label><input type="date" id="od"></div>
+  </div>
+  <div id="order-hint" class="info-box" style="background:var(--gl);color:var(--g);display:none"></div>
+  <div class="fg"><label>Notes</label><textarea id="on2" placeholder="Special requests..."></textarea></div>
+  <button class="btn bp bw" onclick="saveOrder()">Save Order</button>
+</div></div>
+
+<div class="mo" id="mSale" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">Record Sale</div><button class="xb" onclick="cm('mSale')">×</button></div>
+  <div class="fr">
+    <div class="fg"><label>Item</label>
+      <select id="si">
+        <option value="fertile_eggs">Fertile Eggs (BA)</option>
+        <option value="table_eggs">Table Eggs (Layer)</option>
+        <option value="chicks">Chicks</option>
+        <option value="goats">Goats</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="fg"><label>Qty</label><input type="number" id="sq" min="1" value="1"></div>
+  </div>
+  <div class="fg"><label>Amount ($)</label><input type="number" id="sa" step="0.01" placeholder="0.00"></div>
+  <div class="fg"><label>Buyer</label><input type="text" id="sb" placeholder="Optional"></div>
+  <div class="fg"><label>Payment Method</label>
+    <div class="pay-toggle">
+      <button class="pay-btn active cash" id="s-cash" onclick="setPay('s','cash')">💵 Cash</button>
+      <button class="pay-btn eco" id="s-eco" onclick="setPay('s','eco')">📲 EcoCash</button>
+    </div>
+  </div>
+  <input type="hidden" id="s-pay" value="cash">
+  <div class="fg"><label>Notes</label><textarea id="sn2" placeholder="Additional details..."></textarea></div>
+  <button class="btn bp bw" onclick="saveSale()">Save Sale</button>
+</div></div>
+
+<div class="mo" id="mExp" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">Record Expense</div><button class="xb" onclick="cm('mExp')">×</button></div>
+  <div class="fg"><label>Category</label>
+    <select id="ec2">
+      <option value="feed">Feed &amp; Supplies</option>
+      <option value="vet">Veterinary</option>
+      <option value="equipment">Equipment</option>
+      <option value="utilities">Utilities</option>
+      <option value="labor">Labor</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+  <div class="fr">
+    <div class="fg"><label>Amount ($)</label><input type="number" id="ea" step="0.01" placeholder="0.00"></div>
+    <div class="fg"><label>Vendor</label><input type="text" id="ev" placeholder="Optional"></div>
+  </div>
+  <div class="fg"><label>Description</label><textarea id="ed" placeholder="What was purchased..."></textarea></div>
+  <div class="fg"><label>Payment Method</label>
+    <div class="pay-toggle">
+      <button class="pay-btn active cash" id="e-cash" onclick="setPay('e','cash')">💵 Cash in Hand</button>
+      <button class="pay-btn eco" id="e-eco" onclick="setPay('e','eco')">📲 EcoCash</button>
+    </div>
+  </div>
+  <input type="hidden" id="e-pay" value="cash">
+  <button class="btn bw" style="background:var(--c);color:#fff;font-family:var(--fb);font-size:12px;font-weight:700;border:none;cursor:pointer;border-radius:6px;padding:9px;margin-top:2px" onclick="saveExpense()">Save Expense</button>
+</div></div>
+
+<div class="mo" id="mNote" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2">Daily Note</div><button class="xb" onclick="cm('mNote')">×</button></div>
+  <div class="fg"><label>Title</label><input type="text" id="nt" placeholder="Brief title..."></div>
+  <div class="fg"><label>Note</label><textarea id="nb2" placeholder="Write your farm notes..." style="min-height:80px"></textarea></div>
+  <div class="fg"><label>Tag</label>
+    <select id="ntag">
+      <option value="general">General</option>
+      <option value="health">Animal Health</option>
+      <option value="weather">Weather</option>
+      <option value="maintenance">Maintenance</option>
+      <option value="reminder">Reminder</option>
+    </select>
+  </div>
+  <button class="btn bp bw" onclick="saveNote()">Save Note</button>
+</div></div>
+
+<script>
+const SB='https://dxgdjzifcytqpvgzwpdw.supabase.co';
+const SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR4Z2RqemlmY3l0cXB2Z3p3cGR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5ODMxMjksImV4cCI6MjA5MjU1OTEyOX0.i-ZP5eCpiQX_bKrD6tFZF1n7ue6KA5-p0s_xvushhfw';
+const RH={'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=representation'};
+const WH={'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK};
+
+let Q=JSON.parse(localStorage.getItem('mfq4')||'[]');
+let online=navigator.onLine;
+let C={
+  orders:[],sales:[],expenses:[],eggs:[],notes:[],incubator:[],
+  goat_kids:[],goat_count:[],ba_count:[],layer_count:[],
+  layer_eggs:[],layer_sales:[],cash_ledger:[],
+  goat_mortality:[],bird_mortality:[],delete_log:[]
+};
+let reportPeriod='week';
+
+const PROTECTED_TABLES=[]; // All tables can now be deleted with reason+confirmation
+const TABLES=[
+  'orders','sales','expenses','eggs','notes','incubator',
+  'goat_kids','goat_count','ba_count','layer_count',
+  'layer_eggs','layer_sales','cash_ledger',
+  'goat_mortality','bird_mortality','delete_log'
+];
+
+const uid=()=>([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16));
+const nowISO=()=>new Date().toISOString();
+const todayS=()=>new Date().toISOString().slice(0,10);
+const fm=n=>'$'+parseFloat(n||0).toFixed(2);
+const fd=d=>{if(!d)return'';try{return new Date(d.length===10?d+'T12:00:00':d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}catch{return d;}};
+const gd=r=>((r.date||r.created_at||'')).slice(0,10);
+const addDays=(d,n)=>{const dt=new Date(d+'T12:00:00');dt.setDate(dt.getDate()+n);return dt.toISOString().slice(0,10);};
+const addMonths=(d,n)=>{const dt=new Date(d+'T12:00:00');dt.setMonth(dt.getMonth()+n);return dt.toISOString().slice(0,10);};
+const daysDiff=(d1,d2)=>Math.floor((new Date(d2)-new Date(d1+'T12:00:00'))/864e5);
+const getWeekStart=()=>{const d=new Date();d.setDate(d.getDate()-d.getDay());return d.toISOString().slice(0,10);};
+const getMonthStart=()=>todayS().slice(0,7)+'-01';
+const getYearStart=()=>todayS().slice(0,4)+'-01-01';
+
+function saveCache(){ localStorage.setItem('mfc4', JSON.stringify(C)); }
+function saveQueue(){ localStorage.setItem('mfq4', JSON.stringify(Q)); }
+
+// Track deleted IDs so mergeById never resurrects them from local cache
+let _deletedIds=new Set(JSON.parse(localStorage.getItem('mfDeleted')||'[]'));
+function trackDeleted(id){
+  _deletedIds.add(id);
+  // Keep max 2000 entries to avoid unbounded growth
+  if(_deletedIds.size>2000){
+    const arr=[..._deletedIds];
+    _deletedIds=new Set(arr.slice(arr.length-2000));
+  }
+  localStorage.setItem('mfDeleted',JSON.stringify([..._deletedIds]));
+}
+function byCreatedDesc(a,b){ return new Date(b.created_at||0)-new Date(a.created_at||0); }
+
+function mergeById(localRows=[], serverRows=[]){
+  const map=new Map();
+  // If server returned rows, they are the source of truth (minus deleted)
+  for(const r of serverRows||[]) if(r&&r.id&&!_deletedIds.has(r.id)) map.set(r.id,r);
+  // Always keep local rows not yet on server (pending inserts) and not deleted
+  for(const r of localRows||[]){
+    if(!r||!r.id) continue;
+    if(_deletedIds.has(r.id)) continue;
+    if(!map.has(r.id)) map.set(r.id,r);
+  }
+  return [...map.values()].sort(byCreatedDesc);
+}
+function queueInsertIfMissing(table,record){
+  const exists=Q.some(op=>op.t==='i'&&op.table===table&&op.record&&op.record.id===record.id);
+  if(!exists){ Q.push({t:'i',table,record}); saveQueue(); }
+}
+function queuePatch(table,id,patch){
+  const exists=Q.some(op=>op.t==='u'&&op.table===table&&op.id===id&&JSON.stringify(op.patch)===JSON.stringify(patch));
+  if(!exists){ Q.push({t:'u',table,id,patch}); saveQueue(); }
+}
+function queueDelete(table,id){
+  const exists=Q.some(op=>op.t==='d'&&op.table===table&&op.id===id);
+  if(!exists){ Q.push({t:'d',table,id}); saveQueue(); }
+}
+function localInsert(table,record){
+  C[table]=[record,...(C[table]||[])];
+  C[table]=mergeById(C[table],[]);
+  saveCache();
+  renderAll();
+}
+function localPatch(table,id,patchObj){
+  const row=(C[table]||[]).find(r=>r.id===id);
+  if(row) Object.assign(row,patchObj);
+  saveCache();
+  renderAll();
+}
+function applyQueuedOpsToCache(){
+  for(const op of Q){
+    if(!C[op.table]) C[op.table]=[];
+    if(op.t==='i'&&op.record){
+      C[op.table]=mergeById(C[op.table],[op.record]);
+    }else if(op.t==='u'){
+      const row=C[op.table].find(r=>r.id===op.id);
+      if(row) Object.assign(row,op.patch||{});
+    }else if(op.t==='d'){
+      if(op.id) trackDeleted(op.id);
+      C[op.table]=(C[op.table]||[]).filter(r=>r.id!==op.id);
+    }
+  }
+  saveCache();
+}
+
+function calcBalances(){
+  let hand=0,eco=0,dep=0;
+  for(const r of C.cash_ledger){
+    if(r.type==='cash_in_hand') hand+=r.action==='credit'?(r.amount||0):-(r.amount||0);
+    else if(r.type==='ecocash') eco+=r.action==='credit'?(r.amount||0):-(r.amount||0);
+    else if(r.type==='deposit') dep+=(r.amount||0);
+  }
+  for(const r of [...C.sales,...C.layer_sales]){
+    if((r.payment_method||'cash')==='ecocash') eco+=(r.amount||0);
+    else hand+=(r.amount||0);
+  }
+  for(const r of C.expenses){
+    if((r.payment_method||'cash')==='ecocash') eco-=(r.amount||0);
+    else hand-=(r.amount||0);
+  }
+  return{hand,eco,dep};
+}
+
+function calcHerd(){
+  const today=todayS();
+  const latestCount=C.goat_count[0];
+  const baseAdults=latestCount?(latestCount.count||0):0;
+  const baseDate=latestCount?gd(latestCount):'1900-01-01';
+
+  let graduatedExtra=0;
+  let currentKids=0;
+
+  for(const batch of C.goat_kids){
+    const bornDate=gd(batch);
+    const gradDate=addMonths(bornDate,6);
+    const batchMort=C.goat_mortality
+      .filter(m=>m.animal_type==='kid'&&m.kid_batch_date===bornDate)
+      .reduce((s,m)=>s+(m.count||0),0);
+    const alive=Math.max(0,(batch.kid_count||0)-batchMort);
+
+    if(gradDate<=today){
+      if(bornDate>baseDate) graduatedExtra+=alive;
+    }else currentKids+=alive;
+  }
+
+  const adultMort=C.goat_mortality
+    .filter(m=>m.animal_type==='adult'&&gd(m)>=baseDate)
+    .reduce((s,m)=>s+(m.count||0),0);
+
+  const adults=Math.max(0,baseAdults+graduatedExtra-adultMort);
+  return{adults,kids:currentKids,total:adults+currentKids};
+}
+
+function calcBAFlock(){
+  const latest=C.ba_count[0];
+  if(!latest) return{total:0,hens:0,cocks:0};
+  const baseDate=gd(latest);
+  const totalBase=(latest.count||0);
+  const hensBase=(latest.hens!=null?latest.hens:totalBase);
+  const cocksBase=(latest.cocks!=null?latest.cocks:0);
+
+  const baMort=C.bird_mortality
+    .filter(m=>m.bird_type==='ba'&&gd(m)>=baseDate)
+    .reduce((s,m)=>s+(m.count||0),0);
+  const hensMort=C.bird_mortality
+    .filter(m=>m.bird_type==='ba'&&m.gender==='hen'&&gd(m)>=baseDate)
+    .reduce((s,m)=>s+(m.count||0),0);
+  const cocksMort=C.bird_mortality
+    .filter(m=>m.bird_type==='ba'&&m.gender==='cock'&&gd(m)>=baseDate)
+    .reduce((s,m)=>s+(m.count||0),0);
+
+  const hens=Math.max(0,hensBase-hensMort);
+  const cocks=Math.max(0,cocksBase-cocksMort);
+  const total=Math.max(0,totalBase-baMort);
+
+  return{total,hens,cocks};
+}
+
+function calcLayerFlock(){
+  const latest=C.layer_count[0];
+  if(!latest) return{total:0};
+  const baseDate=gd(latest);
+  const base=(latest.count||0);
+  const mort=C.bird_mortality
+    .filter(m=>m.bird_type==='layer'&&gd(m)>=baseDate)
+    .reduce((s,m)=>s+(m.count||0),0);
+  return{total:Math.max(0,base-mort)};
+}
+
+function setSync(s){
+  const d=document.getElementById('dot'),l=document.getElementById('slbl');
+  d.className='dot';d.style.background='';
+  if(s==='ok'){d.style.background='#C0DD97';l.textContent='Live';}
+  else if(s==='sync'){d.classList.add('spin');l.textContent='Syncing...';}
+  else if(s==='off'){d.classList.add('off');l.textContent='Offline';}
+  else if(s==='err'){d.classList.add('err');l.textContent='Error';}
+}
+function ub(){
+  const b=document.getElementById('offbar');
+  b.style.display=(!online&&Q.length)?'block':'none';
+  document.getElementById('qc').textContent=Q.length;
+}
+async function api(method,table,body,filter=''){
+  const url=`${SB}/rest/v1/${table}${filter?'?'+filter:''}`;
+  const opts={method,headers:method==='POST'?RH:WH};
+  if(body) opts.body=JSON.stringify(body);
+
+  const r=await fetch(url,opts);
+  const txt=await r.text();
+
+  if(!r.ok){
+    if(method==='GET'){
+      console.error('GET FAILED',table,r.status,txt);
+      return [];
+    }
+    // Parse Supabase error message if JSON
+    let errMsg=txt;
+    try{const j=JSON.parse(txt);errMsg=j.message||j.hint||j.details||txt;}catch{}
+    throw new Error(errMsg||`${method} ${table} HTTP ${r.status}`);
+  }
+
+  if(method==='GET'){
+    try{
+      const j=txt?JSON.parse(txt):[];
+      return Array.isArray(j)?j:[];
+    }catch(e){
+      console.error('JSON PARSE FAILED',table,txt);
+      return [];
+    }
+  }
+  return true;
+}
+async function loadAll(){
+  setSync('sync');
+
+  try{
+    const results=await Promise.allSettled(
+      TABLES.map(t=>api('GET',t,null,'select=*&order=created_at.desc&limit=500'))
+    );
+
+    let anyOk=false;
+
+    TABLES.forEach((t,i)=>{
+      const res=results[i];
+      const localRows=C[t]||[];
+
+      if(res.status==='fulfilled'&&Array.isArray(res.value)){
+        const serverRows=res.value;
+        // Always merge: keeps local pending inserts, respects _deletedIds
+        C[t]=mergeById(localRows,serverRows);
+        anyOk=true;
+      }else{
+        console.error('LOAD FAILED:',t,res.reason);
+        // Keep existing local data for this table — do not wipe it
+      }
+    });
+
+    applyQueuedOpsToCache();
+    saveCache();
+    setSync(anyOk?'ok':(online?'err':'off'));
+    return anyOk;
+  }catch(e){
+    console.error('LOAD ALL FAILED',e);
+    const sv=localStorage.getItem('mfc4');
+    if(sv) try{Object.assign(C,JSON.parse(sv));}catch{}
+    applyQueuedOpsToCache();
+    setSync(online?'err':'off');
+    return false;
+  }
+}
+// Column whitelists per table — only send columns that exist in Supabase
+const TABLE_COLS={
+  orders:['id','date','created_at','customer','contact','item','qty','price','due_date','notes','status'],
+  sales:['id','date','created_at','item','qty','amount','buyer','notes','payment_method'],
+  expenses:['id','date','created_at','category','amount','vendor','description','payment_method'],
+  notes:['id','date','created_at','title','body','tag'],
+  eggs:['id','date','created_at','count','notes'],
+  incubator:['id','date','created_at','egg_count','source','notes','hatch_date','hatched','status'],
+  goat_kids:['id','date','created_at','doe_name','kid_count','gender_male','gender_female','notes'],
+  goat_count:['id','date','created_at','count','notes'],
+  goat_mortality:['id','date','created_at','animal_type','count','kid_batch_date','cause','notes'],
+  ba_count:['id','date','created_at','count','hens','cocks','notes'],
+  layer_count:['id','date','created_at','count','notes'],
+  layer_eggs:['id','date','created_at','count','notes'],
+  layer_sales:['id','date','created_at','qty','amount','buyer','notes','payment_method'],
+  cash_ledger:['id','date','created_at','type','action','amount','source','reference','notes'],
+  bird_mortality:['id','date','created_at','bird_type','count','gender','cause','notes'],
+  delete_log:['id','date','created_at','table_name','record_id','reason','label','record_snapshot'],
+};
+async function push(table,record){
+  const allowed=TABLE_COLS[table];
+  const clean={};
+  for(const[k,v]of Object.entries(record)){
+    // Skip null/undefined/empty strings
+    if(v===null||v===undefined||v==='') continue;
+    // Skip columns not in whitelist for this table
+    if(allowed&&!allowed.includes(k)) continue;
+    clean[k]=v;
+  }
+  return api('POST',table,clean);
+}
+async function upsert(table,record){
+  saveCache();
+
+  if(online){
+    try{
+      await push(table,record);
+      // Confirm by re-fetching the table
+      const rows=await api('GET',table,null,'select=*&order=created_at.desc&limit=500');
+      if(Array.isArray(rows)){
+        C[table]=mergeById(C[table]||[],rows);
+      }
+      saveCache();
+      renderAll();
+      setSync('ok');
+    }catch(e){
+      // Show the real error so it can be diagnosed
+      const msg=e&&e.message?e.message:'Unknown error';
+      console.error('UPSERT FAILED:',table,msg,record);
+      queueInsertIfMissing(table,record);
+      applyQueuedOpsToCache();
+      setSync('err');
+      toast('⚠️ Sync failed: '+msg.slice(0,80));
+    }
+  }else{
+    queueInsertIfMissing(table,record);
+    applyQueuedOpsToCache();
+    setSync('off');
+    toast('Offline — saved locally');
+  }
+  ub();
+}
+// ── Delete with confirmation and reason logging ──
+let _pendingDel={table:null,id:null,label:null};
+function del(table,id,label=''){
+  _pendingDel={table,id,label:label||table};
+  document.getElementById('delConfirmLabel').textContent=label||('Delete this '+table.replace(/_/g,' ').replace(/s$/,'')+'?');
+  document.getElementById('delReason').value='';
+  document.getElementById('delReasonErr').style.display='none';
+  document.getElementById('mDelConfirm').style.display='flex';
+}
+function delBtn(btn){
+  const table=btn.dataset.table,id=btn.dataset.id,label=btn.dataset.label||'';
+  del(table,id,label);
+}
+async function confirmDel(){
+  const {table,id,label}=_pendingDel;
+  if(!table||!id) return;
+  const reason=document.getElementById('delReason').value.trim();
+  if(!reason){ document.getElementById('delReasonErr').style.display='block'; return; }
+  document.getElementById('delReasonErr').style.display='none';
+  document.getElementById('mDelConfirm').style.display='none';
+
+  // Find the record being deleted for logging
+  const rec=(C[table]||[]).find(r=>r.id===id)||{};
+  const logEntry={
+    id:uid(), created_at:nowISO(), date:todayS(),
+    table_name:table, record_id:id, reason,
+    label, record_snapshot:JSON.stringify(rec)
+  };
+
+  // Remove from local C and record in deleted set so mergeById never brings it back
+  trackDeleted(id);
+  C[table]=(C[table]||[]).filter(r=>r.id!==id);
+  C.delete_log=[logEntry,...(C.delete_log||[])];
+  saveCache(); renderAll();
+
+  // Push to Supabase
+  if(online){
+    try{
+      await api('DELETE',table,null,`id=eq.${id}`);
+      await push('delete_log',logEntry);
+      setSync('ok');
+    }catch(e){
+      console.error('DELETE FAILED:',table,id,e);
+      queueDelete(table,id);
+      Q.push({t:'i',table:'delete_log',record:logEntry}); saveQueue();
+      setSync('err');
+    }
+  }else{
+    queueDelete(table,id);
+    Q.push({t:'i',table:'delete_log',record:logEntry}); saveQueue();
+    setSync('off');
+  }
+  ub(); toast('Deleted and logged');
+  _pendingDel={table:null,id:null,label:null};
+}
+async function patch(table,id,data){
+  localPatch(table,id,data);
+
+  if(online){
+    try{
+      await api('PATCH',table,data,`id=eq.${id}`);
+      setSync('ok');
+    }catch(e){
+      console.error('PATCH FAILED:',table,id,e,data);
+      queuePatch(table,id,data);
+      saveCache();
+      setSync('err');
+    }
+  }else{
+    queuePatch(table,id,data);
+    saveCache();
+    setSync('off');
+  }
+  ub();
+}
+async function flushQ(){
+  if(!Q.length) return;
+
+  const fail=[];
+
+  for(const op of Q){
+    try{
+      if(op.t==='i') await push(op.table,op.record);
+      else if(op.t==='u') await api('PATCH',op.table,op.patch,`id=eq.${op.id}`);
+      else if(op.t==='d') await api('DELETE',op.table,null,`id=eq.${op.id}`);
+    }catch(e){
+      console.error('QUEUE SYNC FAILED:',op,e);
+      fail.push(op);
+    }
+  }
+
+  Q=fail;
+  saveQueue();
+  ub();
+
+  applyQueuedOpsToCache();
+
+  if(!fail.length){
+    await loadAll();
+    renderAll();
+    toast('Offline data synced!');
+  }
+}
+async function doRefresh(){
+  if(!online){toast('Offline — changes queued');return;}
+  setSync('sync');
+  await flushQ();
+  await loadAll();
+  renderAll();
+  toast('Refreshed!');
+}
+
+function toast(m){
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#2C2C2A;color:#fff;padding:7px 16px;border-radius:20px;font-size:12px;z-index:9999;white-space:nowrap;font-family:var(--fb)';
+  t.textContent=m;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),2600);
+}
+function sv(n){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('v-'+n).classList.add('active');
+  document.querySelector(`[data-v="${n}"]`).classList.add('active');
+  rv(n);
+}
+function rv(n){
+  ({dash:rDash,cash:rCash,ba:rBA,layer:rLayer,incubator:rIncubator,goats:rGoats,orders:rOrders,sales:rSales,expenses:rExp,notes:rNotes,reports:rReports,dellog:rDellog})[n]?.();
+}
+function renderAll(){
+  const a=document.querySelector('.view.active');
+  if(a) rv(a.id.replace('v-',''));
+}
+function om(id){document.getElementById(id).style.display='flex';}
+function cm(id){document.getElementById(id).style.display='none';}
+// Use event delegation so modals added after script load also get close-on-backdrop
+document.addEventListener('click',function(e){
+  if(e.target.classList.contains('mo')) e.target.style.display='none';
+});
+document.getElementById('inc-date').value=todayS();
+
+function setPay(prefix,method){
+  document.getElementById(prefix+'-pay').value=method;
+  const cBtn=document.getElementById(prefix+'-cash'),eBtn=document.getElementById(prefix+'-eco');
+  cBtn.className='pay-btn'+(method==='cash'?' active cash':'');
+  eBtn.className='pay-btn'+(method==='eco'?' active eco':'');
+}
+
+function toggleMortKidField(){
+  const isKid=document.getElementById('mort-type').value==='kid';
+  document.getElementById('mort-kid-row').style.display=isKid?'block':'none';
+  if(isKid){
+    const sel=document.getElementById('mort-batch');
+    const batches=[...C.goat_kids].sort((a,b)=>gd(b).localeCompare(gd(a)));
+    sel.innerHTML=batches.length
+      ?batches.map(b=>`<option value="${gd(b)}">${fd(gd(b))} — ${b.doe_name||'Unknown doe'} (${b.kid_count} kids)</option>`).join('')
+      :'<option value="">No kid batches</option>';
+  }
+}
+
+function updateOrderHint(){
+  const item=document.getElementById('oi').value;
+  const box=document.getElementById('order-hint');
+  if(item==='chicks'){
+    const active=C.incubator.filter(r=>r.status==='incubating').sort((a,b)=>new Date(a.hatch_date)-new Date(b.hatch_date));
+    if(active.length){
+      const b=active[0];
+      const proj=Math.round((b.egg_count||0)*0.8);
+      box.style.display='block';box.style.background='var(--gl)';box.style.color='var(--g)';
+      box.innerHTML=`🐣 Nearest hatch: <strong>${fd(b.hatch_date)}</strong> · Est. <strong>${proj} chicks</strong> (${b.egg_count} eggs × 80% hatch rate)`;
+      if(!document.getElementById('od').value) document.getElementById('od').value=b.hatch_date;
+    }else{
+      box.style.display='block';box.style.background='var(--al)';box.style.color='var(--a)';
+      box.innerHTML='⚠️ No active incubator batches. Add one in the Incubator tab first.';
+    }
+  }else if(item==='fertile_eggs'){
+    box.style.display='block';box.style.background='var(--gl)';box.style.color='var(--g)';
+    box.innerHTML='🥚 Fertile BA eggs — for hatching purposes.';
+  }else if(item==='table_eggs'){
+    box.style.display='block';box.style.background='var(--tl)';box.style.color='var(--t)';
+    box.innerHTML='🥚 Layer table eggs — for eating/consumption.';
+  }else box.style.display='none';
+}
+function payBadge(pm){
+  return pm==='ecocash'?`<span class="tag tec">📲 EcoCash</span>`:`<span class="tag tca">💵 Cash</span>`;
+}
+
+async function saveCashIn(){
+  const a=parseFloat(document.getElementById('ci-amt').value);
+  if(!a||a<=0){toast('Enter valid amount');return;}
+  const rec={id:uid(),date:todayS(),created_at:nowISO(),type:'cash_in_hand',action:'credit',amount:a,
+    reference:document.getElementById('ci-ref').value.trim()||null,
+    notes:document.getElementById('ci-notes').value.trim()||null};
+  ['ci-amt','ci-ref','ci-notes'].forEach(i=>document.getElementById(i).value='');
+  cm('mCashIn');
+  C.cash_ledger=[rec,...C.cash_ledger];
+  saveCache();
+  renderAll();
+  await upsert('cash_ledger',rec);
+  toast('Cash in Hand updated!');
+}
+async function saveEcoCashIn(){
+  const a=parseFloat(document.getElementById('ei2-amt').value);
+  if(!a||a<=0){toast('Enter valid amount');return;}
+  const rec={id:uid(),date:todayS(),created_at:nowISO(),type:'ecocash',action:'credit',amount:a,
+    reference:document.getElementById('ei2-ref').value.trim()||null,
+    notes:document.getElementById('ei2-notes').value.trim()||null};
+  ['ei2-amt','ei2-ref','ei2-notes'].forEach(i=>document.getElementById(i).value='');
+  cm('mEcoCashIn');
+  C.cash_ledger=[rec,...C.cash_ledger];
+  saveCache();
+  renderAll();
+  await upsert('cash_ledger',rec);
+  toast('EcoCash updated!');
+}
+async function saveDeposit(){
+  const a=parseFloat(document.getElementById('dep-amt').value);
+  if(!a||a<=0){toast('Enter valid amount');return;}
+  const src=document.getElementById('dep-src').value;
+  const depRec={id:uid(),date:todayS(),created_at:nowISO(),type:'deposit',action:'credit',amount:a,
+    source:src,reference:document.getElementById('dep-ref').value.trim()||null,
+    notes:document.getElementById('dep-notes').value.trim()||null};
+  const srcRec={id:uid(),date:todayS(),created_at:new Date(Date.now()+1).toISOString(),
+    type:src==='cash'?'cash_in_hand':'ecocash',action:'debit',amount:a,
+    reference:'Transfer to bank deposit',notes:null};
+  ['dep-amt','dep-ref','dep-notes'].forEach(i=>document.getElementById(i).value='');
+  cm('mDeposit');
+  C.cash_ledger=[depRec,srcRec,...C.cash_ledger];
+  saveCache();
+  renderAll();
+  await upsert('cash_ledger',depRec);
+  await upsert('cash_ledger',srcRec);
+  toast(`Deposit recorded from ${src==='cash'?'Cash in Hand':'EcoCash'}`);
+}
+async function logBAEgg(){
+  const n=parseInt(document.getElementById('ei').value);
+  if(!n||n<1){toast('Enter a valid count');return;}
+  const rec={id:uid(),date:todayS(),created_at:nowISO(),count:n,notes:document.getElementById('en').value.trim()||null};
+  document.getElementById('ei').value='';document.getElementById('en').value='';
+  cm('mEgg');
+  C.eggs=[rec,...C.eggs];
+  saveCache();
+  renderAll();
+  await upsert('eggs',rec);
+  toast('BA eggs logged!');
+}
+async function saveBACount(){
+  const n=parseInt(document.getElementById('bac').value);
+  if(isNaN(n)||n<0){toast('Enter a count');return;}
+  const hens=parseInt(document.getElementById('bac-hens').value)||0;
+  const cocks=parseInt(document.getElementById('bac-cocks').value)||0;
+  const total=n||(hens+cocks);
+  const rec={id:uid(),date:todayS(),created_at:nowISO(),count:total,hens:hens||null,cocks:cocks||null,
+    notes:document.getElementById('ban').value.trim()||null};
+  ['bac','bac-hens','bac-cocks','ban'].forEach(i=>document.getElementById(i).value='');
+  cm('mBACount');
+  C.ba_count=[rec,...C.ba_count];
+  saveCache();
+  renderAll();
+  await upsert('ba_count',rec);
+  toast('Australorp flock updated!');
+}
+async function saveLayerCount(){
+  const n=parseInt(document.getElementById('lc-count').value);
+  if(isNaN(n)||n<0){toast('Enter a count');return;}
+  const rec={id:uid(),date:todayS(),created_at:nowISO(),count:n,notes:document.getElementById('lc-notes').value.trim()||null};
+  ['lc-count','lc-notes'].forEach(i=>document.getElementById(i).value='');
+  cm('mLayerCount');
+  C.layer_count=[rec,...C.layer_count];
+  saveCache();
+  renderAll();
+  await upsert('layer_count',rec);
+  toast('Layer hen count updated!');
+}
+async function saveBAMort(){
+  const count=parseInt(document.getElementById('bam-count').value)||1;
+  const rec={id:uid(),date:todayS(),created_at:nowISO(),bird_type:'ba',count,
+    gender:document.getElementById('bam-gender').value,
+    cause:document.getElementById('bam-cause').value,
+    notes:document.getElementById('bam-notes').value.trim()||null};
+  document.getElementById('bam-count').value='1';document.getElementById('bam-notes').value='';
+  cm('mBAMort');
+  C.bird_mortality=[rec,...C.bird_mortality];
+  saveCache();
+  renderAll();
+  await upsert('bird_mortality',rec);
+  toast(`${count} BA bird(s) recorded as lost. Flock updated.`);
+}
+async function saveLayerMort(){
+  const count=parseInt(document.getElementById('lm-count').value)||1;
+  const rec={id:uid(),date:todayS(),created_at:nowISO(),bird_type:'layer',count,
+    gender:'hen',
+    cause:document.getElementById('lm-cause').value,
+    notes:document.getElementById('lm-notes').value.trim()||null};
+  document.getElementById('lm-count').value='1';document.getElementById('lm-notes').value='';
+  cm('mLayerMort');
+  C.bird_mortality=[rec,...C.bird_mortality];
+  saveCache();
+  renderAll();
+  await upsert('bird_mortality',rec);
+  toast(`${count} layer hen(s) recorded as lost. Flock updated.`);
+}
+async function logLayerEgg(){
+  const n=parseInt(document.getElementById('lei').value);
+  if(!n||n<1){toast('Enter a valid count');return;}
+  const rec={id:uid(),date:todayS(),created_at:nowISO(),count:n,notes:document.getElementById('len2').value.trim()||null};
+  document.getElementById('lei').value='';document.getElementById('len2').value='';
+  cm('mLayerEgg');
+  C.layer_eggs=[rec,...C.layer_eggs];
+  saveCache();
+  renderAll();
+  await upsert('layer_eggs',rec);
+  toast('Layer eggs logged!');
+}
+async function saveLayerSale(){
+  const a=parseFloat(document.getElementById('lsa').value);
+  if(!a||a<=0){toast('Enter an amount');return;}
+  const pay=document.getElementById('ls-pay').value;
+  const rec={id:uid(),date:todayS(),created_at:nowISO(),qty:parseInt(document.getElementById('lsq').value)||1,
+    amount:a,buyer:document.getElementById('lsb').value.trim()||null,
+    payment_method:pay==='eco'?'ecocash':'cash'};
+  ['lsq','lsa','lsb'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('lsq').value='1';setPay('ls','cash');
+  cm('mLayerSale');
+  C.layer_sales=[rec,...C.layer_sales];
+  saveCache();
+  renderAll();
+  await upsert('layer_sales',rec);
+  toast(`Layer sale recorded · ${pay==='eco'?'EcoCash':'Cash'}`);
+}
+async function saveIncubator(){
+  const n=parseInt(document.getElementById('inc-count').value),d=document.getElementById('inc-date').value;
+  if(!n||n<1){toast('Enter egg count');return;}
+  if(!d){toast('Select a start date');return;}
+  const hatch=addDays(d,21);
+  const rec={id:uid(),date:d,created_at:nowISO(),egg_count:n,
+    source:document.getElementById('inc-source').value.trim()||'BA',
+    notes:document.getElementById('inc-notes').value.trim()||null,
+    hatch_date:hatch,hatched:0,status:'incubating'};
+  ['inc-count','inc-source','inc-notes'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('inc-date').value=todayS();
+  cm('mIncubator');
+  C.incubator=[rec,...C.incubator];
+  saveCache();
+  renderAll();
+  await upsert('incubator',rec);
+  toast(`Batch started! Hatch day: ${fd(hatch)}`);
+}
+function openHatch(id){
+  document.getElementById('hatch-id').value=id;
+  document.getElementById('hatch-count').value='';
+  om('mHatch');
+}
+async function recordHatch(){
+  const id=document.getElementById('hatch-id').value,n=parseInt(document.getElementById('hatch-count').value);
+  if(isNaN(n)||n<0){toast('Enter hatched count');return;}
+  cm('mHatch');
+  await patch('incubator',id,{hatched:n,status:'completed'});
+  toast(`Hatch recorded: ${n} chicks`);
+}
+async function saveGoatCount(){
+  const n=parseInt(document.getElementById('gc').value);
+  if(isNaN(n)||n<0){toast('Enter a count');return;}
+  const rec={id:uid(),date:todayS(),created_at:nowISO(),count:n,notes:document.getElementById('gn').value.trim()||null};
+  document.getElementById('gc').value='';document.getElementById('gn').value='';
+  cm('mGoatCount');
+  C.goat_count=[rec,...C.goat_count];
+  saveCache();
+  renderAll();
+  await upsert('goat_count',rec);
+  toast('Adult baseline updated!');
+}
+async function saveKids(){
+  const total=parseInt(document.getElementById('kt').value)||1;
+  const rec={id:uid(),date:todayS(),created_at:nowISO(),
+    doe_name:document.getElementById('kd').value.trim()||null,kid_count:total,
+    gender_male:parseInt(document.getElementById('km').value)||0,
+    gender_female:parseInt(document.getElementById('kf').value)||0,
+    notes:document.getElementById('kn').value.trim()||null};
+  ['kd','km','kf','kn'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('kt').value='1';
+  cm('mKids');
+  C.goat_kids=[rec,...C.goat_kids];
+  saveCache();
+  renderAll();
+  await upsert('goat_kids',rec);
+  toast(`${total} kid(s) logged! Graduates ${fd(addMonths(todayS(),6))}`);
+}
+async function saveMortality(){
+  const type=document.getElementById('mort-type').value;
+  const count=parseInt(document.getElementById('mort-count').value)||1;
+  const batchDate=type==='kid'?document.getElementById('mort-batch').value:null;
+  const rec={id:uid(),date:todayS(),created_at:nowISO(),animal_type:type,count,
+    kid_batch_date:batchDate||null,cause:document.getElementById('mort-cause').value,
+    notes:document.getElementById('mort-notes').value.trim()||null};
+  document.getElementById('mort-count').value='1';document.getElementById('mort-notes').value='';
+  cm('mMortality');
+  C.goat_mortality=[rec,...C.goat_mortality];
+  saveCache();
+  renderAll();
+  await upsert('goat_mortality',rec);
+  toast(`${count} ${type}(s) recorded as lost. Herd updated.`);
+}
+async function saveOrder(){
+  const c=document.getElementById('oc').value.trim();
+  if(!c){toast('Customer name required');return;}
+
+  const item=document.getElementById('oi').value;
+  let dueDate=document.getElementById('od').value||null;
+  let autoNote='';
+
+  if(item==='chicks'&&!dueDate){
+    const ab=C.incubator.filter(r=>r.status==='incubating').sort((a,b)=>new Date(a.hatch_date)-new Date(b.hatch_date));
+    if(ab.length){
+      dueDate=ab[0].hatch_date;
+      autoNote=`Est. ready: ${fd(dueDate)} (~${Math.round((ab[0].egg_count||0)*0.8)} chicks, 80% hatch rate)`;
+    }
+  }
+
+  const rec={id:uid(),date:todayS(),created_at:nowISO(),customer:c,
+    contact:document.getElementById('ocon').value.trim()||null,item,
+    qty:parseInt(document.getElementById('oq').value)||1,
+    price:parseFloat(document.getElementById('op').value)||0,
+    due_date:dueDate,
+    notes:(document.getElementById('on2').value.trim()||autoNote)||null,
+    status:'pending'};
+
+  ['oc','ocon','op','od','on2'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('oq').value='1';
+  document.getElementById('order-hint').style.display='none';
+
+  cm('mOrder');
+  localInsert('orders',rec);
+  await upsert('orders',rec);
+  toast('Order saved!');
+}
+async function updStatus(id,status){
+  localPatch('orders',id,{status});
+
+  if(online){
+    try{
+      await api('PATCH','orders',{status},`id=eq.${id}`);
+      setSync('ok');
+    }catch(e){
+      console.error('ORDER STATUS PATCH FAILED',id,e);
+      queuePatch('orders',id,{status});
+      saveCache();
+      setSync('err');
+    }
+  }else{
+    queuePatch('orders',id,{status});
+    saveCache();
+    setSync('off');
+  }
+  ub();
+}
+async function saveSale(){
+  const a=parseFloat(document.getElementById('sa').value);
+  if(!a||a<=0){toast('Enter an amount');return;}
+  const pay=document.getElementById('s-pay').value;
+
+  const rec={id:uid(),date:todayS(),created_at:nowISO(),item:document.getElementById('si').value,
+    qty:parseInt(document.getElementById('sq').value)||1,amount:a,
+    buyer:document.getElementById('sb').value.trim()||null,
+    notes:document.getElementById('sn2').value.trim()||null,
+    payment_method:pay==='eco'?'ecocash':'cash'};
+
+  ['sa','sb','sn2'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('sq').value='1';
+  setPay('s','cash');
+
+  cm('mSale');
+  localInsert('sales',rec);
+  await upsert('sales',rec);
+  toast(`Sale recorded · ${pay==='eco'?'EcoCash updated':'Cash in Hand updated'}`);
+}
+async function saveExpense(){
+  const a=parseFloat(document.getElementById('ea').value);
+  if(!a||a<=0){toast('Enter an amount');return;}
+  const pay=document.getElementById('e-pay').value;
+  const rec={id:uid(),date:todayS(),created_at:nowISO(),category:document.getElementById('ec2').value,
+    amount:a,vendor:document.getElementById('ev').value.trim()||null,
+    description:document.getElementById('ed').value.trim()||null,
+    payment_method:pay==='eco'?'ecocash':'cash'};
+  ['ea','ev','ed'].forEach(i=>document.getElementById(i).value='');
+  setPay('e','cash');
+  cm('mExp');
+  C.expenses=[rec,...C.expenses];
+  saveCache();
+  renderAll();
+  await upsert('expenses',rec);
+  toast(`Expense from ${pay==='eco'?'EcoCash':'Cash in Hand'}`);
+}
+async function saveNote(){
+  const b=document.getElementById('nb2').value.trim();
+  if(!b){toast('Write a note first');return;}
+  const t=document.getElementById('nt').value.trim()||b.slice(0,50);
+  const rec={id:uid(),date:todayS(),created_at:nowISO(),title:t,body:b,tag:document.getElementById('ntag').value};
+  ['nt','nb2'].forEach(i=>document.getElementById(i).value='');
+  cm('mNote');
+  localInsert('notes',rec);
+  await upsert('notes',rec);
+  toast('Note saved!');
+}
+
+const ITEM_LABELS={fertile_eggs:'Fertile Eggs (BA)',table_eggs:'Table Eggs (Layer)',chicks:'Chicks',goats:'Goats',other:'Other',eggs:'BA Eggs'};
+
+function rDash(){
+  const t=todayS();
+  document.getElementById('d-ba').textContent=C.eggs.filter(e=>gd(e)===t).reduce((s,e)=>s+(e.count||0),0);
+  document.getElementById('d-le').textContent=C.layer_eggs.filter(e=>gd(e)===t).reduce((s,e)=>s+(e.count||0),0);
+  document.getElementById('d-sales').textContent=fm([...C.sales,...C.layer_sales].filter(r=>gd(r)===t).reduce((s,r)=>s+(r.amount||0),0));
+  document.getElementById('d-exp').textContent=fm(C.expenses.filter(r=>gd(r)===t).reduce((s,r)=>s+(r.amount||0),0));
+
+  const bal=calcBalances();
+  document.getElementById('d-cash').textContent=fm(bal.hand);
+  document.getElementById('d-eco').textContent=fm(bal.eco);
+  document.getElementById('d-dep').textContent=fm(bal.dep);
+
+  const herd=calcHerd(),baFlock=calcBAFlock();
+  document.getElementById('hd-goats').textContent=herd.total;
+  document.getElementById('hd-ba').textContent=baFlock.total||'—';
+  document.getElementById('hd-inc').textContent=C.incubator.filter(r=>r.status==='incubating').length;
+  document.getElementById('hd-orders').textContent=C.orders.filter(r=>r.status==='pending').length;
+
+  const all=[
+    ...C.eggs.map(r=>({...r,_s:'ba_eggs'})),
+    ...C.layer_eggs.map(r=>({...r,_s:'layer_eggs'})),
+    ...C.sales.map(r=>({...r,_s:'sales'})),
+    ...C.layer_sales.map(r=>({...r,_s:'layer_sales'})),
+    ...C.expenses.map(r=>({...r,_s:'expenses'})),
+    ...C.orders.map(r=>({...r,_s:'orders'})),
+    ...C.goat_kids.map(r=>({...r,_s:'kids'})),
+    ...C.goat_mortality.map(r=>({...r,_s:'mortality'})),
+    ...C.bird_mortality.map(r=>({...r,_s:'bird_mort'})),
+    ...C.incubator.map(r=>({...r,_s:'incubator'})),
+    ...C.notes.map(r=>({...r,_s:'notes'}))
+  ].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,12);
+
+  const el=document.getElementById('ra');
+  if(!all.length){
+    el.innerHTML='<div class="empty"><div class="ei">🌱</div><p>No activity yet. Start logging!</p></div>';
+    return;
+  }
+
+  el.innerHTML=all.map(r=>{
+    if(r._s==='ba_eggs') return `<div class="ri"><div style="flex:1"><div class="rtt"><span class="tag tba">BA Eggs</span> Collected</div><div class="rm">${fd(r.date)}</div></div><div class="ra amb">${r.count} eggs</div></div>`;
+    if(r._s==='layer_eggs') return `<div class="ri"><div style="flex:1"><div class="rtt"><span class="tag tg">Layer Eggs</span> Collected</div><div class="rm">${fd(r.date)}</div></div><div class="ra amb">${r.count} eggs</div></div>`;
+    if(r._s==='sales') return `<div class="ri"><div style="flex:1"><div class="rtt"><span class="tag te">${ITEM_LABELS[r.item]||r.item}</span> ${payBadge(r.payment_method)}</div><div class="rm">${fd(r.date)}${r.buyer?' · '+r.buyer:''}</div></div><div class="ra inc">${fm(r.amount)}</div></div>`;
+    if(r._s==='layer_sales') return `<div class="ri"><div style="flex:1"><div class="rtt"><span class="tag tg">Layer Sale</span> ${payBadge(r.payment_method)}</div><div class="rm">${fd(r.date)}${r.buyer?' · '+r.buyer:''}</div></div><div class="ra inc">${fm(r.amount)}</div></div>`;
+    if(r._s==='expenses') return `<div class="ri"><div style="flex:1"><div class="rtt"><span class="tag tx2">${r.category}</span> ${payBadge(r.payment_method)}</div><div class="rm">${fd(r.date)} ${r.description||''}</div></div><div class="ra exp">-${fm(r.amount)}</div></div>`;
+    if(r._s==='orders') return `<div class="ri"><div style="flex:1"><div class="rtt"><span class="tag to">Order</span> ${r.customer}</div><div class="rm">${fd(r.date)} · ${r.qty} ${ITEM_LABELS[r.item]||r.item}</div></div><div class="ra inc">${fm(r.price)}</div></div>`;
+    if(r._s==='kids') return `<div class="ri"><div style="flex:1"><div class="rtt"><span class="tag tg">Kids Born</span>${r.doe_name?' from '+r.doe_name:''}</div><div class="rm">${fd(r.date)} · Graduates ${fd(addMonths(gd(r),6))}</div></div><div class="ra" style="color:var(--t)">${r.kid_count}</div></div>`;
+    if(r._s==='mortality') return `<div class="ri"><div style="flex:1"><div class="rtt"><span class="tag tx2">🪦 Goat Mortality</span> ${r.count} ${r.animal_type}${r.count>1?'s':''}</div><div class="rm">${fd(r.date)} · ${r.cause}</div></div><div class="ra exp">-${r.count}</div></div>`;
+    if(r._s==='bird_mort'){ const btype=r.bird_type==='ba'?'BA':'Layer'; return `<div class="ri"><div style="flex:1"><div class="rtt"><span class="tag tx2">🪦 ${btype} Mortality</span> ${r.count} bird${r.count>1?'s':''}</div><div class="rm">${fd(r.date)} · ${r.cause}</div></div><div class="ra exp">-${r.count}</div></div>`; }
+    if(r._s==='incubator') return `<div class="ri"><div style="flex:1"><div class="rtt"><span class="tag tp">${r.status==='incubating'?'🥚 Incubating':'🐣 Hatched'}</span> ${r.source||'BA'} batch</div><div class="rm">${r.egg_count} eggs · Hatch: ${fd(r.hatch_date)}</div></div></div>`;
+    if(r._s==='notes') return `<div class="ri"><div style="flex:1"><div class="rtt"><span class="tag tn3">${r.tag}</span> ${r.title}</div><div class="rm">${fd(r.date)}</div></div></div>`;
+    return '';
+  }).join('');
+}
+
+function rCash(){
+  const bal=calcBalances();
+  document.getElementById('c-hand').textContent=fm(bal.hand);
+  document.getElementById('c-eco').textContent=fm(bal.eco);
+  document.getElementById('c-dep').textContent=fm(bal.dep);
+
+  const el=document.getElementById('lCash');
+  const all=[
+    ...C.cash_ledger,
+    ...C.sales.map(r=>({...r,_l:'sale'})),
+    ...C.layer_sales.map(r=>({...r,_l:'lsale'})),
+    ...C.expenses.map(r=>({...r,_l:'expense'}))
+  ].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,60);
+
+  if(!all.length){el.innerHTML='<div class="empty"><div class="ei">💵</div><p>No transactions yet</p></div>';return;}
+
+  const typeLabel={cash_in_hand:'Cash in Hand',ecocash:'EcoCash',deposit:'Bank Deposit'};
+  const typeIcon={cash_in_hand:'💵',ecocash:'📲',deposit:'🏦'};
+
+  el.innerHTML=all.map(r=>{
+    if(r._l==='sale'){
+      const pm=r.payment_method||'cash';
+      return `<div class="ri"><div style="flex:1"><div class="rtt">Sale — ${ITEM_LABELS[r.item]||r.item} ${payBadge(pm)}</div><div class="rm">${fd(r.date)}${r.buyer?' · '+r.buyer:''}</div></div><div class="ra inc">+${fm(r.amount)}</div></div>`;
+    }
+    if(r._l==='lsale'){
+      const pm=r.payment_method||'cash';
+      return `<div class="ri"><div style="flex:1"><div class="rtt">Layer Egg Sale ${payBadge(pm)}</div><div class="rm">${fd(r.date)} · ${r.qty} eggs${r.buyer?' · '+r.buyer:''}</div></div><div class="ra inc">+${fm(r.amount)}</div></div>`;
+    }
+    if(r._l==='expense'){
+      const pm=r.payment_method||'cash';
+      return `<div class="ri"><div style="flex:1"><div class="rtt">Expense — ${r.category} ${payBadge(pm)}</div><div class="rm">${fd(r.date)} ${r.description||''}</div></div><div class="ra exp">-${fm(r.amount)}</div></div>`;
+    }
+    const isCredit=r.action==='credit';
+    return `<div class="ri"><div style="flex:1">
+      <div class="rtt">${typeIcon[r.type]||'💰'} ${typeLabel[r.type]||r.type}${r.reference?' — '+r.reference:''}</div>
+      <div class="rm">${fd(r.date)}${r.notes?' · '+r.notes:''}</div>
+    </div><div style="text-align:right">
+      <div class="ra ${isCredit?'inc':'exp'}">${isCredit?'+':'-'}${fm(r.amount)}</div>
+      <button class="btn bd2 bsm" onclick="delBtn(this)" data-table="cash_ledger" data-id="${r.id}" data-label="Cash entry" style="margin-top:3px">×</button>
+    </div></div>`;
+  }).join('');
+}
+
+function rBA(){
+  const t=todayS(),wa=new Date(Date.now()-7*864e5).toISOString().slice(0,10);
+  const flock=calcBAFlock();
+  document.getElementById('ba-current').textContent=flock.total||'—';
+  document.getElementById('ba-hens').textContent=flock.hens!=null?flock.hens:'—';
+  document.getElementById('ba-cocks').textContent=flock.cocks!=null?flock.cocks:'—';
+  document.getElementById('ba-today-eggs').textContent=C.eggs.filter(e=>gd(e)===t).reduce((s,e)=>s+(e.count||0),0);
+  document.getElementById('ba-week-eggs').textContent=C.eggs.filter(e=>gd(e)>=wa).reduce((s,e)=>s+(e.count||0),0);
+
+  const baMort=C.bird_mortality.filter(m=>m.bird_type==='ba');
+  const mbar=document.getElementById('ba-mort-bar');
+  if(baMort.length){
+    const total=baMort.reduce((s,m)=>s+(m.count||0),0);
+    mbar.style.display='block';
+    mbar.textContent=`🪦 ${total} total mortality recorded`;
+  }else mbar.style.display='none';
+
+  const days=['Su','Mo','Tu','We','Th','Fr','Sa'];
+  document.getElementById('ba-eweek').innerHTML=Array.from({length:7},(_,i)=>{
+    const d=new Date(Date.now()-(6-i)*864e5),ds=d.toISOString().slice(0,10);
+    const cnt=C.eggs.filter(e=>gd(e)===ds).reduce((s,e)=>s+(e.count||0),0);
+    return `<div class="eday"><div class="dn">${days[d.getDay()]}</div><div class="dc">${cnt}</div></div>`;
+  }).join('');
+
+  const by={}; C.eggs.forEach(e=>{const d=gd(e);by[d]=(by[d]||0)+(e.count||0);});
+  const sorted=Object.entries(by).sort((a,b)=>b[0].localeCompare(a[0]));
+  const el=document.getElementById('lBAEggs');
+  if(!sorted.length) el.innerHTML='<div class="empty"><div class="ei">🥚</div><p>No BA egg logs yet</p></div>';
+  else el.innerHTML=sorted.map(([date,cnt])=>`<div class="ri"><div style="flex:1"><div class="rtt">BA Eggs Collected</div><div class="rm">${fd(date)}</div></div><div class="ra amb">${cnt} eggs</div></div>`).join('');
+
+  const elm=document.getElementById('lBAMort');
+  const mort=[...C.bird_mortality.filter(m=>m.bird_type==='ba')].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  if(!mort.length) elm.innerHTML='<div class="empty"><div class="ei">✅</div><p>No BA mortality recorded</p></div>';
+  else elm.innerHTML=mort.map(r=>`<div class="mort-card ri" style="margin-bottom:0"><div style="flex:1"><div class="rtt">🪦 ${r.count} ${r.gender==='hen'?'Hen(s) ♀':r.gender==='cock'?'Cock(s) ♂':'BA bird(s)'} — ${r.cause}</div><div class="rm">${fd(r.date)}${r.notes?' · '+r.notes:''}</div></div><button class="btn bd2 bsm" onclick="delBtn(this)" data-table="bird_mortality" data-id="${r.id}" data-label="Bird mortality">×</button></div>`).join('');
+}
+
+function rLayer(){
+  const t=todayS(),wa=new Date(Date.now()-7*864e5).toISOString().slice(0,10);
+  const flock=calcLayerFlock();
+  document.getElementById('layer-current').textContent=flock.total||'—';
+  const todayCnt=C.layer_eggs.filter(e=>gd(e)===t).reduce((s,e)=>s+(e.count||0),0);
+  const weekCnt=C.layer_eggs.filter(e=>gd(e)>=wa).reduce((s,e)=>s+(e.count||0),0);
+  document.getElementById('le-today').textContent=todayCnt;
+  document.getElementById('le-week').textContent=weekCnt;
+  if(document.getElementById('le-today-inline')) document.getElementById('le-today-inline').textContent=todayCnt;
+  if(document.getElementById('le-week-inline')) document.getElementById('le-week-inline').textContent=weekCnt;
+  document.getElementById('le-sales').textContent=fm(C.layer_sales.filter(r=>gd(r)===t).reduce((s,r)=>s+(r.amount||0),0));
+
+  const layerMort=C.bird_mortality.filter(m=>m.bird_type==='layer');
+  const mbar=document.getElementById('layer-mort-bar');
+  if(mbar){
+    if(layerMort.length){
+      const tot=layerMort.reduce((s,m)=>s+(m.count||0),0);
+      mbar.style.display='block';
+      mbar.textContent=`🪦 ${tot} total mortality recorded`;
+    }else mbar.style.display='none';
+  }
+
+  const days=['Su','Mo','Tu','We','Th','Fr','Sa'];
+  document.getElementById('le-eweek').innerHTML=Array.from({length:7},(_,i)=>{
+    const d=new Date(Date.now()-(6-i)*864e5),ds=d.toISOString().slice(0,10);
+    const cnt=C.layer_eggs.filter(e=>gd(e)===ds).reduce((s,e)=>s+(e.count||0),0);
+    return `<div class="eday" style="border-color:#9FE1CB"><div class="dn">${days[d.getDay()]}</div><div class="dc" style="color:var(--t)">${cnt}</div></div>`;
+  }).join('');
+
+  const by={}; C.layer_eggs.forEach(e=>{const d=gd(e);by[d]=(by[d]||0)+(e.count||0);});
+  const sorted=Object.entries(by).sort((a,b)=>b[0].localeCompare(a[0]));
+  const el=document.getElementById('lLayerEggs');
+  if(!sorted.length) el.innerHTML='<div class="empty"><div class="ei">🥚</div><p>No layer egg logs yet</p></div>';
+  else el.innerHTML=sorted.map(([date,cnt])=>`<div class="ri"><div style="flex:1"><div class="rtt">Layer Eggs Collected</div><div class="rm">${fd(date)}</div></div><div class="ra amb">${cnt} eggs</div></div>`).join('');
+
+  const elS=document.getElementById('lLayerSales');
+  const ls=[...C.layer_sales].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  if(!ls.length) elS.innerHTML='<div class="empty"><div class="ei">💰</div><p>No layer sales yet</p></div>';
+  else elS.innerHTML=ls.map(r=>`<div class="ri"><div style="flex:1"><div class="rtt">Layer Sale ${payBadge(r.payment_method)}</div><div class="rm">${fd(r.date)} · ${r.qty} eggs${r.buyer?' · '+r.buyer:''}</div></div><div style="text-align:right"><div class="ra inc">${fm(r.amount)}</div><button class="btn bd2 bsm" onclick="delBtn(this)" data-table="layer_sales" data-id="${r.id}" data-label="Layer sale" style="margin-top:3px">×</button></div></div>`).join('');
+
+  const elm=document.getElementById('lLayerMort');
+  if(elm){
+    const mort=[...C.bird_mortality.filter(m=>m.bird_type==='layer')].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+    if(!mort.length) elm.innerHTML='<div class="empty"><div class="ei">✅</div><p>No layer mortality recorded</p></div>';
+    else elm.innerHTML=mort.map(r=>`<div class="mort-card ri" style="margin-bottom:0"><div style="flex:1"><div class="rtt">🪦 ${r.count} Layer hen(s) — ${r.cause}</div><div class="rm">${fd(r.date)}${r.notes?' · '+r.notes:''}</div></div><button class="btn bd2 bsm" onclick="delBtn(this)" data-table="bird_mortality" data-id="${r.id}" data-label="Bird mortality">×</button></div>`).join('');
+  }
+}
+
+function rIncubator(){
+  const active=C.incubator.filter(r=>r.status==='incubating').sort((a,b)=>new Date(a.hatch_date)-new Date(b.hatch_date));
+  const done=C.incubator.filter(r=>r.status!=='incubating').sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  const el=document.getElementById('incubatorActive');
+  if(!active.length){
+    el.innerHTML='<div class="empty"><div class="ei">🐣</div><p>No active batches. Add one above!</p></div>';
+  }else el.innerHTML=active.map(r=>{
+    const td=todayS(),daysIn=daysDiff(r.date,td),daysLeft=Math.max(0,daysDiff(td,r.hatch_date)),pct=Math.min(100,Math.round((daysIn/21)*100));
+    const proj=Math.round((r.egg_count||0)*0.8);
+    const isToday=r.hatch_date===td,isPast=r.hatch_date<td;
+    return `<div class="icard">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><div style="font-weight:700;font-size:13px">${r.source||'BA'} Batch — ${r.egg_count} eggs</div><div style="font-size:11px;color:var(--mt)">Set: ${fd(r.date)}</div></div>
+        <div>${isToday?`<span class="os sinc">🐣 Hatch Day!</span>`:isPast?`<span class="os" style="background:#FCEBEB;color:#A32D2D">Overdue</span>`:`<span class="os sr2">${daysLeft}d left</span>`}</div>
+      </div>
+      <div style="margin:6px 0;display:flex;gap:12px;align-items:center">
+        <div><div style="font-size:22px;font-weight:700;font-family:var(--fh);color:var(--a)">${daysIn}</div><div style="font-size:10px;color:var(--mt)">days in</div></div>
+        <div><div style="font-size:11px;color:var(--a);font-weight:600">Hatch: ${fd(r.hatch_date)}</div><div style="font-size:11px;color:var(--mt)">~${proj} chicks projected (80% rate)</div></div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div style="font-size:10px;color:var(--mt);margin-top:3px">${pct}% through incubation</div>
+      <div style="margin-top:8px;display:flex;gap:6px">
+        <button class="btn bp bsm" onclick="openHatch('${r.id}')">Record Hatch</button>
+        <button class="btn bd2 bsm" onclick="delBtn(this)" data-table="incubator" data-id="${r.id}" data-label="Incubator batch">Remove</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  const eldone=document.getElementById('incubatorDone');
+  if(!done.length){eldone.innerHTML='<div class="empty"><div class="ei">📋</div><p>No completed batches yet</p></div>';return;}
+  eldone.innerHTML=done.map(r=>`<div class="ri"><div style="flex:1"><div class="rtt">${r.source||'BA'} — ${r.egg_count} eggs set</div><div class="rm">Hatched: ${r.hatched||0} chicks · ${r.egg_count>0?Math.round(((r.hatched||0)/r.egg_count)*100):0}% hatch rate · Set ${fd(r.date)}</div></div><button class="btn bd2 bsm" onclick="delBtn(this)" data-table="incubator" data-id="${r.id}" data-label="Incubator batch">×</button></div>`).join('');
+}
+
+function rGoats(){
+  const herd=calcHerd();
+  document.getElementById('g-total').textContent=herd.total;
+  document.getElementById('g-adults').textContent=herd.adults;
+  document.getElementById('g-kids-count').textContent=herd.kids;
+  const ms=getMonthStart(),ys=getYearStart();
+  document.getElementById('g-kids-month').textContent=C.goat_kids.filter(r=>gd(r)>=ms).reduce((s,r)=>s+(r.kid_count||0),0);
+  document.getElementById('g-kids-year').textContent=C.goat_kids.filter(r=>gd(r)>=ys).reduce((s,r)=>s+(r.kid_count||0),0);
+
+  const elk=document.getElementById('lKids');
+  const kids=[...C.goat_kids].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  if(!kids.length){
+    elk.innerHTML='<div class="empty"><div class="ei">🐐</div><p>No kids logged yet</p></div>';
+  }else elk.innerHTML=kids.map(r=>{
+    const bornDate=gd(r),gradDate=addMonths(bornDate,6),isGrad=gradDate<=todayS();
+    const batchMort=C.goat_mortality.filter(m=>m.animal_type==='kid'&&m.kid_batch_date===bornDate).reduce((s,m)=>s+(m.count||0),0);
+    const alive=Math.max(0,(r.kid_count||0)-batchMort);
+    return `<div class="ri col">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="rtt">${r.doe_name||'Unknown doe'} — ${r.kid_count} kid${r.kid_count>1?'s':''}</div>
+          <div class="rm">${fd(bornDate)}${r.gender_male||r.gender_female?` · ♂${r.gender_male||0} ♀${r.gender_female||0}`:''}</div>
+        </div>
+        <div style="text-align:right">
+          <span class="os ${isGrad?'sc2':'sr2'}">${isGrad?'✓ Graduated to Adult':'Still a Kid'}</span>
+          ${batchMort>0?`<div style="font-size:10px;color:var(--c);margin-top:2px">-${batchMort} mortality</div>`:''}
+          <div style="font-size:12px;font-weight:700;color:${isGrad?'var(--g)':'var(--a)'};margin-top:2px">${alive} alive</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--mt);margin-top:3px">${isGrad?`Graduated ${fd(gradDate)}`:`Graduates: ${fd(gradDate)}`}</div>
+      ${r.notes?`<div style="font-size:11px;color:var(--mt);margin-top:3px">${r.notes}</div>`:''}
+      <button class="btn bd2 bsm" onclick="delBtn(this)" data-table="goat_kids" data-id="${r.id}" data-label="Kid batch" style="margin-top:6px;align-self:flex-start">Delete Batch</button>
+    </div>`;
+  }).join('');
+
+  const elm=document.getElementById('lMortality');
+  const mort=[...C.goat_mortality].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  if(!mort.length){
+    elm.innerHTML='<div class="empty"><div class="ei">✅</div><p>No mortality recorded</p></div>';
+  }else elm.innerHTML=mort.map(r=>`<div class="mort-card ri" style="margin-bottom:0">
+    <div style="flex:1">
+      <div class="rtt">🪦 ${r.count} ${r.animal_type}${r.count>1?'s':''} — ${r.cause}</div>
+      <div class="rm">${fd(r.date)}${r.kid_batch_date?' · Kid batch born '+fd(r.kid_batch_date):''}${r.notes?' · '+r.notes:''}</div>
+    </div>
+    <button class="btn bd2 bsm" onclick="delBtn(this)" data-table="goat_mortality" data-id="${r.id}" data-label="Goat mortality">×</button>
+  </div>`).join('');
+
+  const elg=document.getElementById('lGoatCount');
+  const gc=[...C.goat_count].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  if(!gc.length){elg.innerHTML='<div class="empty"><div class="ei">🔢</div><p>No manual counts logged</p></div>';return;}
+  elg.innerHTML=gc.map(r=>`<div class="ri"><div style="flex:1"><div class="rtt">Adult baseline set</div><div class="rm">${fd(r.date)}${r.notes?' · '+r.notes:''}</div></div><div style="text-align:right"><div class="ra" style="color:var(--t)">${r.count} adults</div><button class="btn bd2 bsm" onclick="delBtn(this)" data-table="goat_count" data-id="${r.id}" data-label="Adult count entry" style="margin-top:3px">×</button></div></div>`).join('');
+}
+
+function rOrders(){
+  const el=document.getElementById('lOrders');
+  const list=[...(C.orders||[])].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  if(!list.length){el.innerHTML='<div class="empty"><div class="ei">📋</div><p>No orders yet</p></div>';return;}
+  el.innerHTML=list.map(r=>`<div class="ri col">
+    <div style="display:flex;justify-content:space-between">
+      <div><div class="rtt">${r.customer}</div><div class="rm">${fd(r.date)}${r.due_date?' · Ready: '+fd(r.due_date):''}</div></div>
+      <div style="text-align:right">
+        <span class="os ${{pending:'sp3',ready:'sr2',completed:'sc2',cancelled:'sk'}[r.status]||'sp3'}">${r.status}</span>
+        <div class="ra inc" style="font-size:13px;margin-top:2px">${fm(r.price)}</div>
+      </div>
+    </div>
+    <div style="margin-top:5px;display:flex;gap:5px;flex-wrap:wrap">
+      <span class="tag to">${ITEM_LABELS[r.item]||r.item}</span>
+      <span style="font-size:11px;color:var(--mt)">×${r.qty}</span>
+      ${r.notes?`<span style="font-size:10px;color:var(--mt)">${r.notes}</span>`:''}
+    </div>
+    <div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap">
+      ${r.status!=='ready'&&r.status!=='completed'?`<button class="btn bs bsm" onclick="updStatus('${r.id}','ready')">Mark Ready</button>`:''}
+      ${r.status!=='completed'?`<button class="btn bsm" onclick="updStatus('${r.id}','completed')" style="background:var(--gl);color:var(--g);font-family:var(--fb);font-size:11px;font-weight:700;border:none;cursor:pointer;padding:4px 9px;border-radius:5px">Complete</button>`:''}
+      <button class="btn bd2 bsm" onclick="delBtn(this)" data-table="orders" data-id="${r.id}" data-label="Order for ${r.customer}">Delete</button>
+    </div>
+  </div>`).join('');
+}
+
+function rSales(){
+  const el=document.getElementById('lSales');
+  const list=[...(C.sales||[])].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  if(!list.length){el.innerHTML='<div class="empty"><div class="ei">💰</div><p>No sales yet</p></div>';return;}
+  el.innerHTML=list.map(r=>`<div class="ri"><div style="flex:1"><div class="rtt"><span class="tag te">${ITEM_LABELS[r.item]||r.item}</span> ${payBadge(r.payment_method)}${r.buyer?' to '+r.buyer:''}</div><div class="rm">${fd(r.date)} · Qty ${r.qty}${r.notes?' · '+r.notes:''}</div></div><div style="text-align:right"><div class="ra inc">${fm(r.amount)}</div><button class="btn bd2 bsm" onclick="delBtn(this)" data-table="sales" data-id="${r.id}" data-label="Sale" style="margin-top:3px">×</button></div></div>`).join('');
+}
+
+function rExp(){
+  const el=document.getElementById('lExp');
+  const list=[...C.expenses].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  if(!list.length){el.innerHTML='<div class="empty"><div class="ei">💸</div><p>No expenses yet</p></div>';return;}
+  el.innerHTML=list.map(r=>`<div class="ri"><div style="flex:1"><div class="rtt"><span class="tag tx2">${r.category}</span> ${payBadge(r.payment_method)}</div><div class="rm">${fd(r.date)} ${r.description||''}${r.vendor?' · '+r.vendor:''}</div></div><div style="text-align:right"><div class="ra exp">-${fm(r.amount)}</div><button class="btn bd2 bsm" onclick="delBtn(this)" data-table="expenses" data-id="${r.id}" data-label="Expense" style="margin-top:3px">×</button></div></div>`).join('');
+}
+
+function rNotes(){
+  const el=document.getElementById('lNotes');
+  const list=[...(C.notes||[])].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  if(!list.length){el.innerHTML='<div class="empty"><div class="ei">📝</div><p>No notes yet</p></div>';return;}
+  const tc={general:'tn3',health:'tg',weather:'to',maintenance:'te',reminder:'tc2'};
+  el.innerHTML=list.map(r=>`<div class="ri col"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div class="rtt">${r.title}</div><div class="rm">${fd(r.date)}</div></div><div style="display:flex;align-items:center;gap:5px"><span class="tag ${tc[r.tag]||'tn3'}">${r.tag}</span><button class="btn bd2 bsm" onclick="delBtn(this)" data-table="notes" data-id="${r.id}" data-label="Note">×</button></div></div>${r.body?`<div style="margin-top:5px;font-size:11px;color:var(--gy);line-height:1.5">${r.body}</div>`:''}</div>`).join('');
+}
+
+function setPeriod(p){
+  reportPeriod=p;
+  document.querySelectorAll('.ptab').forEach(b=>b.classList.remove('active'));
+  document.querySelector(`.ptab[onclick="setPeriod('${p}')"]`).classList.add('active');
+  rReports();
+}
+
+function rReports(){
+  const start=reportPeriod==='week'?getWeekStart():reportPeriod==='month'?getMonthStart():getYearStart();
+  const label=reportPeriod==='week'?'This Week':reportPeriod==='month'?'This Month':'This Year';
+  const filt=arr=>arr.filter(r=>gd(r)>=start);
+  const sum=(arr,key)=>arr.reduce((s,r)=>s+(r[key]||0),0);
+  const baE=sum(filt(C.eggs),'count'),leE=sum(filt(C.layer_eggs),'count');
+  const baS=sum(filt(C.sales),'amount'),leS=sum(filt(C.layer_sales),'amount');
+  const totS=baS+leS,totE=sum(filt(C.expenses),'amount'),net=totS-totE;
+  const cashS=filt([...C.sales,...C.layer_sales]).filter(r=>(r.payment_method||'cash')!=='ecocash').reduce((s,r)=>s+(r.amount||0),0);
+  const ecoS=filt([...C.sales,...C.layer_sales]).filter(r=>r.payment_method==='ecocash').reduce((s,r)=>s+(r.amount||0),0);
+  const kids=sum(filt(C.goat_kids),'kid_count'),mort=sum(filt(C.goat_mortality),'count');
+  const batches=filt(C.incubator),hatched=sum(batches,'hatched'),set=sum(batches,'egg_count');
+  const herd=calcHerd(),bal=calcBalances();
+
+  document.getElementById('reportContent').innerHTML=`
+    <div class="section-card"><div class="stitle sm">💵 Cash Position (Current)</div>
+      <div class="sg3"><div class="sc g"><div class="sn">${fm(bal.hand)}</div><div class="sl">Cash in Hand</div></div><div class="sc ec"><div class="sn">${fm(bal.eco)}</div><div class="sl">EcoCash</div></div><div class="sc p"><div class="sn">${fm(bal.dep)}</div><div class="sl">Deposited</div></div></div>
+    </div>
+    <div class="section-card"><div class="stitle sm">💰 Financial — ${label}</div>
+      <div class="sg3"><div class="sc g"><div class="sn">${fm(totS)}</div><div class="sl">Total Sales</div></div><div class="sc c"><div class="sn">${fm(totE)}</div><div class="sl">Expenses</div></div><div class="sc ${net>=0?'g':'c'}"><div class="sn">${fm(net)}</div><div class="sl">Net Profit</div></div></div>
+      <div class="sg2"><div class="sc"><div class="sn" style="color:var(--a)">${fm(cashS)}</div><div class="sl">💵 Cash Sales</div></div><div class="sc ec"><div class="sn">${fm(ecoS)}</div><div class="sl">📲 EcoCash Sales</div></div></div>
+      <div class="sg2"><div class="sc a"><div class="sn">${fm(baS)}</div><div class="sl">BA Sales</div></div><div class="sc t"><div class="sn">${fm(leS)}</div><div class="sl">Layer Sales</div></div></div>
+    </div>
+    <div class="section-card"><div class="stitle sm">🥚 Egg Production — ${label}</div>
+      <div class="sg2"><div class="sc a"><div class="sn">${baE}</div><div class="sl">BA Eggs Collected</div></div><div class="sc t"><div class="sn">${leE}</div><div class="sl">Layer Eggs</div></div></div>
+    </div>
+    <div class="section-card"><div class="stitle sm">🐐 Goat Herd — ${label}</div>
+      <div class="sg3"><div class="sc t"><div class="sn">${herd.total}</div><div class="sl">Total Herd</div></div><div class="sc g"><div class="sn">${herd.adults}</div><div class="sl">Adults</div></div><div class="sc a"><div class="sn">${herd.kids}</div><div class="sl">Kids</div></div></div>
+      <div class="sg2"><div class="sc g"><div class="sn">${kids}</div><div class="sl">Kids Born</div></div><div class="sc c"><div class="sn">${mort}</div><div class="sl">Mortality</div></div></div>
+    </div>
+    <div class="section-card"><div class="stitle sm">🐣 Incubator — ${label}</div>
+      <div class="sg3"><div class="sc p"><div class="sn">${set}</div><div class="sl">Eggs Set</div></div><div class="sc g"><div class="sn">${hatched}</div><div class="sl">Chicks Hatched</div></div><div class="sc a"><div class="sn">${set>0?Math.round((hatched/set)*100):0}%</div><div class="sl">Hatch Rate</div></div></div>
+    </div>
+    <div class="section-card"><div class="stitle sm">📋 Orders — ${label}</div>
+      <div class="sg3"><div class="sc p"><div class="sn">${filt(C.orders).filter(r=>r.status==='pending').length}</div><div class="sl">Pending</div></div><div class="sc a"><div class="sn">${filt(C.orders).filter(r=>r.status==='ready').length}</div><div class="sl">Ready</div></div><div class="sc g"><div class="sn">${filt(C.orders).filter(r=>r.status==='completed').length}</div><div class="sl">Completed</div></div></div>
+    </div>`;
+}
+
+function rDellog(){
+  const el=document.getElementById('lDelLog');
+  if(!el)return;
+  const list=[...(C.delete_log||[])].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  if(!list.length){
+    el.innerHTML='<div class="empty"><div class="ei">✅</div><p>No deletions recorded yet</p></div>';
+    return;
+  }
+  const tL={
+    orders:'Order',sales:'Sale',expenses:'Expense',eggs:'BA Egg Log',notes:'Note',
+    incubator:'Incubator Batch',goat_kids:'Kid Batch',goat_count:'Goat Count',
+    layer_eggs:'Layer Egg Log',layer_sales:'Layer Sale',cash_ledger:'Cash Entry',
+    goat_mortality:'Goat Mortality',bird_mortality:'Bird Mortality',
+    ba_count:'BA Count',layer_count:'Layer Count'
+  };
+  el.innerHTML=list.map(function(r){
+    const tLabel=tL[r.table_name]||r.table_name;
+    let snap='';
+    try{
+      const obj=JSON.parse(r.record_snapshot||'{}');
+      const parts=[];
+      if(obj.amount) parts.push('$'+parseFloat(obj.amount).toFixed(2));
+      if(obj.customer) parts.push(obj.customer);
+      if(obj.category) parts.push(obj.category);
+      if(obj.description) parts.push(obj.description);
+      if(obj.count) parts.push(obj.count+' animals');
+      if(obj.qty) parts.push('qty '+obj.qty);
+      if(obj.egg_count) parts.push(obj.egg_count+' eggs');
+      if(obj.kid_count) parts.push(obj.kid_count+' kids');
+      if(obj.doe_name) parts.push('from '+obj.doe_name);
+      if(obj.buyer) parts.push('buyer: '+obj.buyer);
+      snap=parts.slice(0,3).join(' · ');
+    }catch(e){}
+    return '<div class="ri col">'
+      +'<div style="display:flex;justify-content:space-between;align-items:flex-start">'
+      +'<div>'
+      +'<div class="rtt"><span class="tag tx2">'+tLabel+'</span> '+(r.label||'')+'</div>'
+      +'<div class="rm">'+fd(r.date)+' · ID: '+r.record_id.slice(0,8)+'</div>'
+      +(snap?'<div style="font-size:11px;color:var(--mt);margin-top:2px">'+snap+'</div>':'')
+      +'</div>'
+      +'<div style="text-align:right;font-size:10px;color:var(--mt)">'+fd(r.created_at)+'</div>'
+      +'</div>'
+      +'<div style="margin-top:6px;background:var(--cl);border-radius:5px;padding:5px 8px;font-size:11px;color:var(--c)">'
+      +'<strong>Reason:</strong> '+r.reason
+      +'</div>'
+      +'</div>';
+  }).join('');
+}
+
+// ── PIN Lock ──
+// Change this PIN to whatever you want (4 digits)
+const APP_PIN='1984';
+// Session: stays unlocked for 8 hours after correct PIN
+const PIN_SESSION_KEY='mfPinUnlock';
+const PIN_SESSION_HOURS=8;
+
+let _pinEntry='';
+
+function pinKey(k){
+  const err=document.getElementById('pinErr');
+  if(k==='C'){_pinEntry='';updatePinDots();return;}
+  if(k==='⌫'){_pinEntry=_pinEntry.slice(0,-1);err.textContent='';updatePinDots();return;}
+  if(_pinEntry.length>=4) return;
+  _pinEntry+=k;
+  updatePinDots();
+  if(_pinEntry.length===4) checkPin();
+}
+function updatePinDots(){
+  for(let i=0;i<4;i++){
+    const d=document.getElementById('pd'+i);
+    if(d) d.className='pin-dot'+(_pinEntry.length>i?' filled':'');
+  }
+}
+function checkPin(){
+  if(_pinEntry===APP_PIN){
+    localStorage.setItem(PIN_SESSION_KEY,Date.now().toString());
+    document.getElementById('pinScreen').style.display='none';
+    init();
+  }else{
+    document.getElementById('pinErr').textContent='Incorrect PIN. Try again.';
+    _pinEntry='';
+    updatePinDots();
+    // Shake animation
+    const card=document.querySelector('.pin-card');
+    card.style.animation='none';
+    card.style.transform='translateX(-8px)';
+    setTimeout(()=>{card.style.transform='translateX(8px)';
+    setTimeout(()=>{card.style.transform='';},80);},80);
+  }
+}
+function checkPinSession(){
+  const stored=localStorage.getItem(PIN_SESSION_KEY);
+  if(!stored) return false;
+  const elapsed=(Date.now()-parseInt(stored))/(1000*60*60);
+  return elapsed<PIN_SESSION_HOURS;
+}
+// Start: check session first, or wait for PIN entry
+if(checkPinSession()){
+  document.getElementById('pinScreen').style.display='none';
+}
+
+async function init(){
+  ['mfc3','mfq3'].forEach(k=>localStorage.removeItem(k));
+
+  const sv=localStorage.getItem('mfc4');
+  if(sv){
+    try{
+      const parsed=JSON.parse(sv);
+      Object.assign(C,parsed);
+      renderAll();
+    }catch{}
+  }
+
+  applyQueuedOpsToCache();
+  const ok=await loadAll();
+  document.getElementById('lo').style.display='none';
+
+  if(ok) renderAll();
+  else if(!sv) document.getElementById('ra').innerHTML='<div class="empty"><div class="ei">⚠️</div><p>Cannot connect. Check Supabase and tap refresh.</p></div>';
+
+  ub();
+
+  window.addEventListener('online',()=>{
+    online=true;
+    flushQ().then(()=>loadAll()).then(()=>renderAll());
+  });
+
+  window.addEventListener('offline',()=>{
+    online=false;
+    setSync('off');
+    ub();
+  });
+
+  setInterval(()=>{
+    if(!online) return;
+    const modalOpen=[...document.querySelectorAll('.mo')].some(m=>m.style.display==='flex');
+    if(modalOpen) return;
+    loadAll().then(ok=>{ if(ok) renderAll(); });
+  },60000);
+}
+// Only auto-start if PIN session is already valid
+if(checkPinSession()) init();
+</script>
+<!-- DELETE LOG VIEW -->
+<div class="view" id="v-dellog">
+  <div class="stitle">🗑️ Delete Log</div>
+  <div style="background:var(--cl);border:1px solid #F5C6B4;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:var(--c)">
+    Every deletion requires a reason and is permanently recorded here. Records can never be undeleted from this log.
+  </div>
+  <div id="lDelLog" class="rl"></div>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="mo" id="mDelConfirm" style="display:none"><div class="md">
+  <div class="mh"><div class="mt2" style="color:var(--c)">⚠️ Confirm Delete</div><button class="xb" onclick="document.getElementById('mDelConfirm').style.display='none'">×</button></div>
+  <div style="font-size:13px;margin-bottom:12px" id="delConfirmLabel">Are you sure you want to delete this record?</div>
+  <div class="fg">
+    <label>Reason for deletion <span style="color:var(--c)">*</span></label>
+    <textarea id="delReason" placeholder="e.g. Entered in error, duplicate entry, wrong amount..." style="min-height:70px"></textarea>
+    <div id="delReasonErr" style="display:none;color:var(--c);font-size:11px;margin-top:3px">⚠️ A reason is required before deleting.</div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button class="btn bs" style="flex:1" onclick="document.getElementById('mDelConfirm').style.display='none'">Cancel</button>
+    <button class="btn bw" style="flex:1;background:var(--c);color:#fff;font-family:var(--fb);font-size:12px;font-weight:700;border:none;cursor:pointer;border-radius:6px;padding:8px" onclick="confirmDel()">Yes, Delete</button>
+  </div>
+</div></div>
+
+</body>
+</html>
