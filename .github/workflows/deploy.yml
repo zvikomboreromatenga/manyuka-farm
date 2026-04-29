@@ -27,28 +27,45 @@ jobs:
       - name: Verify secrets exist
         run: |
           if [ -z "${{ secrets.SUPABASE_URL }}" ]; then
-            echo "ERROR: SUPABASE_URL secret is missing!"
+            echo "ERROR: SUPABASE_URL secret is not set in GitHub Secrets!"
             exit 1
           fi
           if [ -z "${{ secrets.SUPABASE_KEY }}" ]; then
-            echo "ERROR: SUPABASE_KEY secret is missing!"
+            echo "ERROR: SUPABASE_KEY secret is not set in GitHub Secrets!"
             exit 1
           fi
-          echo "Both secrets are present"
+          echo "Both secrets are present ✓"
 
-      - name: Inject secrets into HTML
+      - name: Inject secrets using Python
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
         run: |
-          echo "Before injection:"
-          grep -n "SUPABASE" index.html | head -3
-          sed -i "s|__SUPABASE_URL__|${{ secrets.SUPABASE_URL }}|g" index.html
-          sed -i "s|__SUPABASE_KEY__|${{ secrets.SUPABASE_KEY }}|g" index.html
-          echo "After injection:"
+          python3 - <<'PYEOF'
+          import os
+          url = os.environ['SUPABASE_URL']
+          key = os.environ['SUPABASE_KEY']
+          with open('index.html', 'r') as f:
+              content = f.read()
+          content = content.replace("'__SUPABASE_URL__'", f"'{url}'")
+          content = content.replace("'__SUPABASE_KEY__'", f"'{key}'")
+          with open('index.html', 'w') as f:
+              f.write(content)
+          print(f"URL injected: {url[:30]}...")
+          print(f"Key injected: {key[:20]}...")
+          if '__SUPABASE_URL__' in content or '__SUPABASE_KEY__' in content:
+              print("ERROR: Placeholders still present!")
+              exit(1)
+          print("SUCCESS: Secrets injected correctly ✓")
+          PYEOF
+
+      - name: Verify injection worked
+        run: |
           if grep -q "__SUPABASE_URL__\|__SUPABASE_KEY__" index.html; then
-            echo "ERROR: Placeholders still present!"
+            echo "FAIL: Placeholders found in deployed file!"
             exit 1
-          else
-            echo "SUCCESS: Secrets injected"
           fi
+          echo "Verified: No placeholders in output ✓"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -61,4 +78,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
